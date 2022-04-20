@@ -18,6 +18,10 @@ public class RegistrationController {
     private TextField usernameField;
     @FXML
     private ChoiceBox role;
+    @FXML
+    private TextField nameField;
+    @FXML
+    private TextField emailField;
 
     @FXML
     public void initialize() {
@@ -27,7 +31,13 @@ public class RegistrationController {
     @FXML
     public void handleRegisterAction() {
         try {
-            UserService.addUser(usernameField.getText(), passwordField.getText(), (String) role.getValue());
+            UserService.addUser(
+                                usernameField.getText(),
+                                passwordField.getText(),
+                                (String) role.getValue(),
+                                nameField.getText(),
+                                emailField.getText()
+                                );
             registrationMessage.setText("Account created successfully!");
         } catch (UsernameAlreadyExistsException e) {
             registrationMessage.setText(e.getMessage());
