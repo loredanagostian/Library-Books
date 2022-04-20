@@ -39,7 +39,7 @@
     </HBox>
 
     <HBox alignment="bottom_right" spacing="10" GridPane.columnIndex="0" GridPane.rowIndex="8">
-        <Button onAction="#handleRegisterAction" text="Back"/>
+        <Button text="Back"/>
     </HBox>
 
 </GridPane>
