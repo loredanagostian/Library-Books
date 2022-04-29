@@ -14,10 +14,10 @@
             <Font size="20.0" />
          </font>
       </Label>
-      <Label fx:id="usernameLabel" alignment="CENTER" contentDisplay="BOTTOM" layoutX="189.0" layoutY="131.0" nodeOrientation="RIGHT_TO_LEFT" text="Username" />
-      <Label fx:id="passwordLabel" alignment="CENTER" contentDisplay="BOTTOM" layoutX="188.0" layoutY="187.0" nodeOrientation="RIGHT_TO_LEFT" prefWidth="54.0" text="Password" />
+      <Label alignment="CENTER" contentDisplay="BOTTOM" layoutX="189.0" layoutY="131.0" nodeOrientation="RIGHT_TO_LEFT" text="Username" />
+      <Label alignment="CENTER" contentDisplay="BOTTOM" layoutX="188.0" layoutY="187.0" nodeOrientation="RIGHT_TO_LEFT" prefWidth="54.0" text="Password" />
       <TextField fx:id="usernameTextField" alignment="TOP_RIGHT" layoutX="264.0" layoutY="127.0" nodeOrientation="RIGHT_TO_LEFT" />
-      <Button fx:id="registerButton" layoutX="190.0" layoutY="300.0" mnemonicParsing="false" text="Register" />
+      <Button layoutX="190.0" layoutY="300.0" mnemonicParsing="false" onAction="#registerButton" text="Register" />
       <Button fx:id="connectButton" layoutX="354.0" layoutY="300.0" mnemonicParsing="false" onAction="#connectButton" text="Connect" />
       <PasswordField fx:id="passwordPassField" layoutX="264.0" layoutY="183.0" />
       <Label fx:id="showMessage" alignment="CENTER" contentDisplay="BOTTOM" layoutX="242.0" layoutY="247.0" nodeOrientation="RIGHT_TO_LEFT" />

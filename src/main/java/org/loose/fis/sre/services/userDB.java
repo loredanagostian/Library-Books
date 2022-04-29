@@ -1,24 +1,18 @@
 package org.loose.fis.sre.services;
 
-import org.dizitart.no2.objects.ObjectRepository;
 import org.loose.fis.sre.controllers.dbConnection;
-import org.loose.fis.sre.exceptions.InvalidCredentials;
 import org.loose.fis.sre.exceptions.InvalidPassword;
 import org.loose.fis.sre.exceptions.UsernameAlreadyExistsException;
 import org.loose.fis.sre.exceptions.UsernameNotFound;
-import org.loose.fis.sre.model.User;
 
-import javax.xml.transform.Result;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.sql.*;
-import java.util.Objects;
-
 
 
 public class userDB {
-    PreparedStatement preparedStatement = null;
+    static PreparedStatement preparedStatement = null;
     static dbConnection connectNow = new dbConnection();
     static Connection connection = connectNow.getConnection();
 
@@ -43,36 +37,36 @@ public class userDB {
         }
     }
 
-    public userDB() throws SQLException {
+    public userDB() {
     }
+
+    static ResultSet resultSet;
 
 
     public static void insertUser(String username, String password, String role, String name, String email) throws UsernameAlreadyExistsException, SQLException {
-        while (queryOutput.next()){
-            checkUserDoesNotAlreadyExist("username");
-        }
+        String sql = "SELECT * FROM users WHERE username = ?";
+        preparedStatement = connection.prepareStatement(sql);
 
-        String sql = "INSERT INTO users (username, password, role, name, email) VALUES (?, ?, ?, ?, ?)";
+        preparedStatement.setString(1, username);
+        resultSet = preparedStatement.executeQuery();
 
-        try {
-            PreparedStatement preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setString(1, username);
-            preparedStatement.setString(2, password);
-            preparedStatement.setString(3, role);
-            preparedStatement.setString(4, name);
-            preparedStatement.setString(5, email);
+        if (resultSet.next())
+            throw new UsernameAlreadyExistsException(username);
 
-            preparedStatement.executeUpdate();
-        } catch(SQLException e) {
-            System.out.println(e);
-        }
+        sql = "INSERT INTO users (username, password, role, name, email) VALUES (?, ?, ?, ?, ?)";
+        preparedStatement = connection.prepareStatement(sql);
+
+        preparedStatement.setString(1, username);
+        preparedStatement.setString(2, password);
+        preparedStatement.setString(3, role);
+        preparedStatement.setString(4, name);
+        preparedStatement.setString(5, email);
+
+        preparedStatement.executeUpdate();
     }
 
-    public static void loginUser(String username, String password) throws UsernameNotFound, InvalidPassword, SQLException, InvalidCredentials {
+    public static void loginUser(String username, String password) throws UsernameNotFound, InvalidPassword, SQLException {
         String sql = "SELECT * FROM users WHERE username = ?";
-
-        PreparedStatement preparedStatement;
-        ResultSet resultSet;
 
         preparedStatement = connection.prepareStatement(sql);
         preparedStatement.setString(1, username);
@@ -81,43 +75,15 @@ public class userDB {
         if (!resultSet.next())
             throw new UsernameNotFound(username);
 
-        sql = "SELECT * FROM users WHERE username = ? and password = ?";
+        sql = "SELECT * FROM users WHERE username = ? AND password = ?;";
 
         preparedStatement = connection.prepareStatement(sql);
         preparedStatement.setString(1, username);
-        preparedStatement.setString(2, password);
-
+        preparedStatement.setString(1, password);
         resultSet = preparedStatement.executeQuery();
 
         if (!resultSet.next())
             throw new InvalidPassword(password);
-    }
-
-    public static void checkUsernameNotFound(String username) throws UsernameNotFound, SQLException {
-        boolean found = false;
-
-        while (queryOutput.next())
-            if(username.equals(queryOutput.getString("username")))
-                found = true;
-
-        if(!found)
-            throw new UsernameNotFound(username);
-    }
-
-    public static void checkInvalidPassword(String username, String password) throws InvalidPassword, UsernameNotFound, SQLException {
-        checkUsernameNotFound(username);
-
-        while (queryOutput.next())
-            if(username.equals(queryOutput.getString("username")))
-                if(!password.equals(queryOutput.getString("password")))
-                    throw new InvalidPassword(password);
-    }
-
-    public static void checkUserDoesNotAlreadyExist(String username) throws UsernameAlreadyExistsException, SQLException {
-        while (queryOutput.next()) {
-            if (username.equals(queryOutput.getString("username")))
-                throw new UsernameAlreadyExistsException(username);
-        }
     }
 
     public static String encodePassword(String salt, String password) {
