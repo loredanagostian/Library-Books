@@ -6,7 +6,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import org.loose.fis.sre.services.FileSystemService;
-import org.loose.fis.sre.services.UserService;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -17,10 +16,10 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         initDirectory();
-        UserService.initDatabase();
+        //userDB.initDatabase();
         Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getClassLoader().getResource("login.fxml")));
-        primaryStage.setTitle("Buy & Rent Books");
-        primaryStage.setScene(new Scene(root, 600, 400));
+        primaryStage.setTitle("Login Page");
+        primaryStage.setScene(new Scene(root, 650, 450));
         primaryStage.show();
     }
 
