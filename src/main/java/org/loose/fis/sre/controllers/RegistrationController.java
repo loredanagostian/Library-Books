@@ -25,7 +25,7 @@ public class RegistrationController {
 
     @FXML
     public void initialize() {
-        role.getItems().addAll("Customer", "Library");
+        role.getItems().addAll("Customer", "Librarian");
     }
 
     @FXML
