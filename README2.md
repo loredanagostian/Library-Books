@@ -1,0 +1,1 @@
+<img src="docs/Project%20Schema.jpeg" width="250"/>
