@@ -42,7 +42,6 @@ public class userDB {
 
     static ResultSet resultSet;
 
-
     public static void insertUser(String username, String password, String role, String name, String email) throws UsernameAlreadyExistsException, SQLException {
         String sql = "SELECT * FROM users WHERE username = ?";
         preparedStatement = connection.prepareStatement(sql);
@@ -79,7 +78,7 @@ public class userDB {
 
         preparedStatement = connection.prepareStatement(sql);
         preparedStatement.setString(1, username);
-        preparedStatement.setString(1, password);
+        preparedStatement.setString(2, password);
         resultSet = preparedStatement.executeQuery();
 
         if (!resultSet.next())

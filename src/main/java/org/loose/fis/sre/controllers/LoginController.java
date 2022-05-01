@@ -44,8 +44,19 @@ public class LoginController {
         try {
             userDB.loginUser(user, pass);
             showMessage.setText("Login successfully!");
+
+            Stage stage = new Stage();
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getClassLoader().getResource("customer.fxml"));
+            Pane root = fxmlLoader.load();
+
+            stage.setTitle("Customer");
+            stage.setScene(new Scene(root, 650, 450));
+            stage.show();
+
         } catch (UsernameNotFound | InvalidPassword | SQLException e) {
             showMessage.setText(e.getMessage());
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
@@ -60,7 +71,7 @@ public class LoginController {
         stage.show();
     }
 
-    public void switchStage_to_Customer_Home() {
+    public void switchStage_to_CustomerController() {
 //        Stage stage = new Stage();
 //        //
 //        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getClassLoader().getResource("OwnerHome.fxml"));
@@ -75,7 +86,7 @@ public class LoginController {
     }
 
     //
-    public void switchStage_to_Librarian_Home() {
+    public void switchStage_to_LibrarianController() {
 //        Stage stage = new Stage();
 //        //
 //        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getClassLoader().getResource("ClientHome.fxml"));
