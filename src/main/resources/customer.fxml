@@ -14,14 +14,14 @@
           <Font size="24.0" />
         </font>
     </Label>
-    <TextField fx:id="searchField" layoutX="211.0" layoutY="84.0" prefHeight="26.0" prefWidth="277.0" />
-    <TableView fx:id="table" layoutX="143.0" layoutY="123.0" prefHeight="167.0" prefWidth="345.0">
+    <TextField fx:id="searchField" layoutX="169.0" layoutY="83.0" prefHeight="26.0" prefWidth="330.0" />
+    <TableView fx:id="table" layoutX="100.0" layoutY="129.0" prefHeight="167.0" prefWidth="400.0">
       <columns>
-          <TableColumn fx:id="colTitle" prefWidth="173.0" text="Title" />
-          <TableColumn fx:id="colAuthor" minWidth="0.0" prefWidth="173.0" text="Author" />
+         <TableColumn fx:id="colButton" prefWidth="200.0" text="Title" />
+          <TableColumn fx:id="colAuthor" minWidth="0.0" prefWidth="200.0" text="Author" />
       </columns>
     </TableView>
-    <Button layoutX="383.0" layoutY="308.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="106.0" text="View History" />
-   <Button fx:id="searchButton" layoutX="143.0" layoutY="85.0" mnemonicParsing="false" onAction="#searchButton" text="Search" />
+    <Button layoutX="392.0" layoutY="317.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="106.0" text="View History" />
+   <Button fx:id="searchButton" layoutX="100.0" layoutY="84.0" mnemonicParsing="false" onAction="#searchButton" text="Search" />
    <Label fx:id="showMessage" layoutX="181.0" layoutY="317.0" />
 </AnchorPane>
