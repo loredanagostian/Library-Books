@@ -3,10 +3,13 @@ package org.loose.fis.sre.services;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import org.loose.fis.sre.controllers.dbConnection;
+import org.loose.fis.sre.exceptions.InvalidPassword;
 import org.loose.fis.sre.exceptions.NoBookFound;
+import org.loose.fis.sre.exceptions.UsernameNotFound;
 import org.loose.fis.sre.model.Books;
 
 import java.sql.*;
+import java.util.NoSuchElementException;
 
 public class bookDB {
     static PreparedStatement preparedStatement = null;
@@ -66,8 +69,8 @@ public class bookDB {
 
         while(resultSet.next()){
             Books book = new Books();
-            book.setTitle(resultSet.getString("title").toLowerCase());
-            book.setAuthor(resultSet.getString("author").toLowerCase());
+            book.setTitle(resultSet.getString("title"));
+            book.setAuthor(resultSet.getString("author"));
 
             list.add(book);
         }
@@ -76,5 +79,32 @@ public class bookDB {
             throw new NoBookFound(searched);
 
         return list;
+    }
+
+    public static Books searchBook (String title, String author) throws SQLException, NoBookFound {
+        String sql = "SELECT * FROM books WHERE title = ?";
+        preparedStatement = connection.prepareStatement(sql);
+        preparedStatement.setString(1, title);
+        resultSet = preparedStatement.executeQuery();
+
+        if (!resultSet.next())
+            throw new NoBookFound(title);
+
+        sql = "SELECT * FROM books WHERE title = ? AND author = ?";
+
+        preparedStatement = connection.prepareStatement(sql);
+        preparedStatement.setString(1, title);
+        preparedStatement.setString(2, author);
+        resultSet = preparedStatement.executeQuery();
+
+        if (!resultSet.next())
+            throw new NoSuchElementException("Nu s-a gasit acesta combinatie de titlu-autor.");
+
+        Books book = new Books();
+        book.setTitle(resultSet.getString("title"));
+        book.setAuthor(resultSet.getString("author"));
+        book.setPrice(resultSet.getInt("price"));
+
+        return book;
     }
 }
