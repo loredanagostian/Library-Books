@@ -7,6 +7,8 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -24,6 +26,7 @@ import java.net.URL;
 import java.sql.*;
 import java.util.Comparator;
 import java.util.Locale;
+import java.util.Objects;
 import java.util.ResourceBundle;
 
 public class CustomerController implements Initializable {
@@ -41,6 +44,9 @@ public class CustomerController implements Initializable {
 
     @FXML
     public Button searchButton;
+
+    @FXML
+    public Button logoutButton;
 
     @FXML
     private TableView<Books> table;
@@ -86,6 +92,7 @@ public class CustomerController implements Initializable {
                                     BookController secondController = fxmlLoader.getController();
                                     secondController.populateWindow(book.getTitle(), book.getAuthor());
 
+                                    ((Node) (actionEvent.getSource())).getScene().getWindow().hide();
                                     stage.setTitle("Book");
                                     assert root != null;
                                     stage.setScene(new Scene(root));
@@ -107,7 +114,7 @@ public class CustomerController implements Initializable {
         }
     }
 
-    public void searchButton (){
+    public void searchButton (javafx.event.ActionEvent actionEvent){
         String toBeSearched = searchField.getText();
 
         if(toBeSearched.isBlank() | toBeSearched.isEmpty()){
@@ -119,10 +126,11 @@ public class CustomerController implements Initializable {
             Stage stage = new Stage();
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getClassLoader().getResource("book.fxml"));
             Pane root = fxmlLoader.load();
+            ((Node)(actionEvent.getSource())).getScene().getWindow().hide();
 
             BookController secondController = fxmlLoader.getController();
             secondController.populateWindow(bookDB.getSearchedBooks(toBeSearched).get(0).getTitle(),
-                                             bookDB.getSearchedBooks(toBeSearched).get(0).getAuthor());
+                    bookDB.getSearchedBooks(toBeSearched).get(0).getAuthor());
 
             stage.setTitle("Book");
             stage.setScene(new Scene(root));
@@ -132,5 +140,16 @@ public class CustomerController implements Initializable {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public void logoutButton (javafx.event.ActionEvent actionEvent) throws IOException {
+        Stage stage = new Stage();
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getClassLoader().getResource("login.fxml"));
+        Pane root = fxmlLoader.load();
+        ((Node)(actionEvent.getSource())).getScene().getWindow().hide();
+
+        stage.setTitle("Log in");
+        stage.setScene(new Scene(root));
+        stage.show();
     }
 }

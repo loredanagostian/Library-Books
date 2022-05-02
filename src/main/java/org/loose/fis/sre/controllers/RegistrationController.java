@@ -38,7 +38,7 @@ public class RegistrationController {
         roleBox.setValue("");
     }
 
-    public void registerButton() {
+    public void registerButton(javafx.event.ActionEvent actionEvent) {
         String user = usernameField.getText();
         String pass = passwordField.getText();
         String role = roleBox.getValue().toString();
@@ -53,7 +53,27 @@ public class RegistrationController {
         try {
             userDB.insertUser(user, pass, role, name, email);
             showMessage.setText("Account created successfully!");
-        } catch (UsernameAlreadyExistsException | SQLException e) {
+
+            if(role.equals("Customer")) {
+                Stage stage = new Stage();
+                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getClassLoader().getResource("customer.fxml"));
+                Pane root = fxmlLoader.load();
+                ((Node)(actionEvent.getSource())).getScene().getWindow().hide();
+
+                stage.setTitle("Register");
+                stage.setScene(new Scene(root));
+                stage.show();
+            }
+            else {
+//                Stage stage = new Stage();
+//                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getClassLoader().getResource("customer.fxml"));
+//                Pane root = fxmlLoader.load();
+//
+//                stage.setTitle("Register");
+//                stage.setScene(new Scene(root, 650, 450));
+//                stage.show();
+            }
+        } catch (UsernameAlreadyExistsException | SQLException | IOException e) {
             showMessage.setText(e.getMessage());
         }
     }
@@ -62,6 +82,7 @@ public class RegistrationController {
         Parent root;
         root = FXMLLoader.load(Objects.requireNonNull(getClass().getClassLoader().getResource("login.fxml")));
         Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+        ((Node) (actionEvent.getSource())).getScene().getWindow().hide();
 
         Scene scene = new Scene(root);
         stage.setScene(scene);
