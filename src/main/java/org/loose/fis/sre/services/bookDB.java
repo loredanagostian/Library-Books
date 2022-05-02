@@ -3,9 +3,11 @@ package org.loose.fis.sre.services;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import org.loose.fis.sre.controllers.dbConnection;
+import org.loose.fis.sre.exceptions.NoBookFound;
 import org.loose.fis.sre.model.Books;
 
 import java.sql.*;
+import java.util.NoSuchElementException;
 
 public class bookDB {
     static PreparedStatement preparedStatement = null;
@@ -54,5 +56,15 @@ public class bookDB {
         }
 
         return list;
+    }
+
+    public static void getSearchedBook (String searched) throws SQLException, NoBookFound {
+        String sql = "SELECT * FROM books WHERE title LIKE ? ";
+        preparedStatement = connection.prepareStatement(sql);
+        preparedStatement.setString(1, "%" + searched + "%");
+        resultSet = preparedStatement.executeQuery();
+
+        if(!resultSet.next())
+            throw new NoBookFound(searched);
     }
 }
