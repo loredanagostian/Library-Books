@@ -1,8 +1,12 @@
 package org.loose.fis.sre.controllers;
 
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.Pane;
+import javafx.stage.Stage;
 import org.loose.fis.sre.exceptions.NoBookFound;
 import org.loose.fis.sre.model.Books;
 
@@ -14,12 +18,12 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 
+import java.io.IOException;
 import java.net.URL;
 import java.sql.*;
 import java.util.ResourceBundle;
 
 public class CustomerController implements Initializable {
-
     @FXML
     private TableColumn<Books, String> colAuthor;
 
@@ -62,10 +66,20 @@ public class CustomerController implements Initializable {
         }
 
         try{
-            bookDB.getSearchedBook(toBeSearched);
-            showMessage.setText("Book found!!!");
+            Stage stage = new Stage();
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getClassLoader().getResource("book.fxml"));
+            Pane root = fxmlLoader.load();
+
+            BookController secController = fxmlLoader.getController();
+            secController.populateWindow(bookDB.getSearchedBooks(toBeSearched));
+
+            stage.setTitle("Book");
+            stage.setScene(new Scene(root));
+            stage.show();
         } catch (SQLException | NoBookFound e) {
             showMessage.setText(e.getMessage());
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 }
