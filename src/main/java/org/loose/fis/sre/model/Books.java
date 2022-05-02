@@ -10,8 +10,9 @@ public class Books {
     private Integer stock;
     private boolean forRent;
     private boolean availability;
+    private Integer price;
 
-    public Books (Integer id, String title, String author, boolean forBuy, Integer stock, boolean forRent, boolean availability){
+    public Books (Integer id, String title, String author, boolean forBuy, Integer stock, boolean forRent, boolean availability, Integer price){
         this.id = id;
         this.title = title;
         this.author = author;
@@ -19,6 +20,7 @@ public class Books {
         this.stock = stock;
         this.forRent = forRent;
         this.availability = availability;
+        this.price = price;
     }
 
     public Books() {
@@ -54,6 +56,8 @@ public class Books {
         return this.availability;
     }
 
+    public Integer getPrice() { return this.price; }
+
     //SETTER
     public void setId (Integer id){
         this.id = id;
@@ -83,20 +87,20 @@ public class Books {
         this.availability = availability;
     }
 
+    public void setPrice(Integer price) {
+        this.price = price;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (!(o instanceof Books)) return false;
+        Books books = (Books) o;
+        return forBuy == books.forBuy && forRent == books.forRent && availability == books.availability && Objects.equals(id, books.id) && Objects.equals(title, books.title) && Objects.equals(author, books.author) && Objects.equals(stock, books.stock) && Objects.equals(price, books.price);
+    }
 
-        Books book = (Books) o;
-
-        if (!Objects.equals(id, book.id)) return false;
-        if (!Objects.equals(title, book.title)) return false;
-        if (author != null ? author.equals(book.author) : book.author != null) return false;
-        if (book.forBuy) return false;
-        if (stock != null ? stock.equals(book.stock) : book.stock != null) return false;
-        if (book.forRent) return false;
-
-        return book.availability;
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, title, author, forBuy, stock, forRent, availability, price);
     }
 }

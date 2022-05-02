@@ -46,6 +46,9 @@ public class CustomerController implements Initializable {
     public Button searchButton;
 
     @FXML
+    public Button viewCartButton;
+
+    @FXML
     public Button logoutButton;
 
     @FXML
@@ -91,6 +94,12 @@ public class CustomerController implements Initializable {
 
                                     BookController secondController = fxmlLoader.getController();
                                     secondController.populateWindow(book.getTitle(), book.getAuthor());
+
+                                    if(!book.getForBuy())
+                                        secondController.buyButton.setVisible(false);
+
+                                    if(!book.getForRent())
+                                        secondController.rentButton.setVisible(false);
 
                                     ((Node) (actionEvent.getSource())).getScene().getWindow().hide();
                                     stage.setTitle("Book");
@@ -149,6 +158,17 @@ public class CustomerController implements Initializable {
         ((Node)(actionEvent.getSource())).getScene().getWindow().hide();
 
         stage.setTitle("Log in");
+        stage.setScene(new Scene(root));
+        stage.show();
+    }
+
+    public void viewCartButton(javafx.event.ActionEvent actionEvent) throws IOException {
+        Stage stage = new Stage();
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getClassLoader().getResource("cart.fxml"));
+        Pane root = fxmlLoader.load();
+        ((Node)(actionEvent.getSource())).getScene().getWindow().hide();
+
+        stage.setTitle("Cart");
         stage.setScene(new Scene(root));
         stage.show();
     }
