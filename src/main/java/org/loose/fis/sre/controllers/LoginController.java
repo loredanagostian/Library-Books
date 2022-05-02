@@ -2,6 +2,7 @@ package org.loose.fis.sre.controllers;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -27,7 +28,7 @@ public class LoginController {
     @FXML
     private Label showMessage;
 
-    public void connectButton() {
+    public void connectButton(javafx.event.ActionEvent actionEvent) {
         String user = usernameTextField.getText();
         String pass = passwordPassField.getText();
 
@@ -48,6 +49,7 @@ public class LoginController {
             Stage stage = new Stage();
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getClassLoader().getResource("customer.fxml"));
             Pane root = fxmlLoader.load();
+            ((Node) (actionEvent.getSource())).getScene().getWindow().hide();
 
             stage.setTitle("Customer");
             stage.setScene(new Scene(root, 650, 450));
@@ -65,40 +67,10 @@ public class LoginController {
         Stage stage = new Stage();
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getClassLoader().getResource("register.fxml"));
         Pane root = fxmlLoader.load();
+        ((Node) (actionEvent.getSource())).getScene().getWindow().hide();
 
         stage.setTitle("Register");
         stage.setScene(new Scene(root, 650, 450));
         stage.show();
     }
-
-    public void switchStage_to_CustomerController() {
-//        Stage stage = new Stage();
-//        //
-//        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getClassLoader().getResource("OwnerHome.fxml"));
-//        Pane root = fxmlLoader.load();
-//        OwnerHomeController controller = fxmlLoader.getController();
-//        controller.passOwnerNameText(usernameField.getText());
-//        controller.populateTable();
-//        //
-//        stage.setTitle("Owner Home");
-//        stage.setScene(new Scene(root, 650, 500));
-//        stage.show();
-    }
-
-    //
-    public void switchStage_to_LibrarianController() {
-//        Stage stage = new Stage();
-//        //
-//        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getClassLoader().getResource("ClientHome.fxml"));
-//        Pane root = fxmlLoader.load();
-//        ClientHomeController controller = fxmlLoader.getController();
-//        controller.passClientNameText(usernameField.getText());
-//        controller.populateTable();
-//        //
-//        stage.setTitle("Client Home");
-//        stage.setScene(new Scene(root, 800, 500));
-//        stage.show();
-//
-    }
 }
-
