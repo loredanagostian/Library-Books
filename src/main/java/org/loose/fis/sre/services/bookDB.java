@@ -7,7 +7,6 @@ import org.loose.fis.sre.exceptions.NoBookFound;
 import org.loose.fis.sre.model.Books;
 
 import java.sql.*;
-import java.util.Locale;
 
 public class bookDB {
     static PreparedStatement preparedStatement = null;

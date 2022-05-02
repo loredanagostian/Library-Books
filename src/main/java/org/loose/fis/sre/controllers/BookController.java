@@ -37,10 +37,8 @@ public class BookController implements Initializable {
 
     }
 
-    public void populateWindow(ObservableList<Books> list){
-        Books book;
-        book = list.get(0);
-        titleField.setText(book.getTitle());
-        authorField.setText((book.getAuthor()));
+    public void populateWindow(String title, String author){
+        titleField.setText(title);
+        authorField.setText(author);
     }
 }
