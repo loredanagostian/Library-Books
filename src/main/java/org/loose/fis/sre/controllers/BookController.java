@@ -40,8 +40,18 @@ public class BookController implements Initializable {
     @FXML
     public Button buyButton;
 
-    public void rentButton(ActionEvent actionEvent){
+    public void rentButton(ActionEvent actionEvent) throws IOException {
+        Stage stage = new Stage();
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getClassLoader().getResource("rent.fxml"));
+        Pane root = fxmlLoader.load();
+        ((Node)(actionEvent.getSource())).getScene().getWindow().hide();
 
+        RentController rentController = fxmlLoader.getController();
+        rentController.setLabels(titleField.getText(), authorField.getText());
+
+        stage.setTitle("Rent Request");
+        stage.setScene(new Scene(root));
+        stage.show();
     }
 
     @FXML

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane fx:id="anchorPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.loose.fis.sre.controllers.RentController">
+    <Label layoutX="264.0" layoutY="62.0" text="Request" underline="true">
+        <font>
+            <Font size="20.0" />
+        </font>
+    </Label>
+    <Label layoutX="204.0" layoutY="136.0" text="Title" />
+    <Label layoutX="204.0" layoutY="182.0" text="Author" />
+    <Label layoutX="202.0" layoutY="231.0" text="Period (in weeks)" />
+    <Label fx:id="showTitle" layoutX="329.0" layoutY="136.0" text="showTitle" />
+    <Label fx:id="showAuthor" layoutX="329.0" layoutY="182.0" text="showAuthor" />
+    <TextField fx:id="periodField" layoutX="315.0" layoutY="227.0" prefHeight="26.0" prefWidth="91.0" />
+    <Button fx:id="backButton" layoutX="209.0" layoutY="312.0" mnemonicParsing="false" onAction="#backButton" text="Back" />
+    <Button fx:id="requestButton" layoutX="349.0" layoutY="312.0" mnemonicParsing="false" onAction="#requestButton" text="Request" />
+    <Label fx:id="showMessage" layoutX="262.0" layoutY="282.0" />
+</AnchorPane>
