@@ -3,11 +3,13 @@ package org.loose.fis.sre.services;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import org.loose.fis.sre.controllers.dbConnection;
+import org.loose.fis.sre.exceptions.BookHas0Stock;
 import org.loose.fis.sre.exceptions.CartItemAlreadyExists;
 import org.loose.fis.sre.exceptions.UsernameAlreadyExistsException;
 import org.loose.fis.sre.model.CartItems;
 
 import java.sql.*;
+import java.util.UUID;
 
 public class cartDB {
     static PreparedStatement preparedStatement = null;
@@ -82,5 +84,42 @@ public class cartDB {
         preparedStatement.setString(2, author);
 
         preparedStatement.executeUpdate();
+    }
+
+    public static void buyItem (String titleBook, String authorBook, Integer priceBook) throws SQLException, BookHas0Stock {
+        String sql = "SELECT * FROM books WHERE title = ?";
+        preparedStatement = connection.prepareStatement(sql);
+        preparedStatement.setString(1, titleBook);
+        resultSet = preparedStatement.executeQuery();
+
+        if(resultSet.next())
+            if(resultSet.getInt("stock") > 0){
+                sql = "INSERT INTO history_customer (id, title, author, `bought?`, `rented?`, price) VALUES (?, ?, ?, ?, ?, ?)";
+                preparedStatement = connection.prepareStatement(sql);
+
+                preparedStatement.setString(1, UUID.randomUUID().toString());
+                preparedStatement.setString(2, titleBook);
+                preparedStatement.setString(3, authorBook);
+                preparedStatement.setInt(4, 1);
+                preparedStatement.setInt(5, 0);
+                preparedStatement.setInt(6, priceBook);
+
+                preparedStatement.executeUpdate();
+
+                int stockBook = resultSet.getInt("stock");
+
+                sql = "UPDATE books SET stock = ? WHERE title = ? AND author = ?";
+                preparedStatement = connection.prepareStatement(sql);
+
+                preparedStatement.setInt(1, stockBook - 1);
+                preparedStatement.setString(2, titleBook);
+                preparedStatement.setString(3, authorBook);
+
+                preparedStatement.executeUpdate();
+
+                deleteItem(titleBook, authorBook);
+            }
+            else
+                throw new BookHas0Stock(titleBook, authorBook);
     }
 }

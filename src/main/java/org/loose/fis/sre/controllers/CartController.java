@@ -1,5 +1,6 @@
 package org.loose.fis.sre.controllers;
 
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -12,6 +13,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.util.Callback;
+import org.loose.fis.sre.exceptions.BookHas0Stock;
 import org.loose.fis.sre.model.Books;
 import org.loose.fis.sre.model.CartItems;
 import org.loose.fis.sre.services.bookDB;
@@ -48,7 +50,15 @@ public class CartController implements Initializable {
 
     @FXML
     public void buyButton(ActionEvent actionEvent) {
+        try {
+            for(CartItems item : cartDB.getCartItems())
+                cartDB.buyItem(item.getTitle(), item.getAuthor(), item.getPrice());
 
+            table.setItems(null);
+            showTotalPrice.setText("Your order has been \n finished successfully!");
+        } catch (BookHas0Stock | SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     @FXML
@@ -93,6 +103,12 @@ public class CartController implements Initializable {
                                     try {
                                         cartDB.deleteItem(itemDeleted.getTitle(), itemDeleted.getAuthor());
                                         table.setItems(cartDB.getCartItems());
+
+                                        Integer total = 0;
+                                        for(CartItems cart_item : cartDB.getCartItems())
+                                            total += cart_item.getPrice();
+
+                                        showTotalPrice.setText(total.toString());
                                     } catch (SQLException e) {
                                         e.printStackTrace();
                                     }
@@ -108,6 +124,12 @@ public class CartController implements Initializable {
             colButton.setCellFactory(cellFactory);
 
             table.setItems(cartDB.getCartItems());
+
+            Integer total = 0;
+            for(CartItems cart_item : cartDB.getCartItems())
+                total += cart_item.getPrice();
+
+            showTotalPrice.setText(total.toString());
         } catch (SQLException e) {
             e.printStackTrace();
         }
