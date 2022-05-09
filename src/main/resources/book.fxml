@@ -5,9 +5,9 @@
 <?import javafx.scene.layout.AnchorPane?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="276.0" prefWidth="426.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.loose.fis.sre.controllers.BookController">
-    <Label fx:id="titleField" layoutX="93.0" layoutY="42.0" prefHeight="30.0" prefWidth="238.0" text="Title" />
+    <Label fx:id="titleField" layoutX="94.0" layoutY="42.0" prefHeight="30.0" prefWidth="238.0" text="Title" />
     <Label fx:id="authorField" layoutX="93.0" layoutY="89.0" prefHeight="30.0" prefWidth="238.0" text="Author" />
-    <Button fx:id="buyButton" layoutX="118.0" layoutY="199.0" mnemonicParsing="false" text="Buy" />
-    <Button fx:id="rentButton" layoutX="250.0" layoutY="199.0" mnemonicParsing="false" text="Rent" />
+    <Button fx:id="buyButton" layoutX="186.0" layoutY="138.0" mnemonicParsing="false" onAction="#buyButton" text="Buy" />
+    <Button fx:id="rentButton" layoutX="184.0" layoutY="199.0" mnemonicParsing="false" onAction="#rentButton" text="Rent" />
     <Button fx:id="backButton" layoutX="363.0" layoutY="225.0" mnemonicParsing="false" onAction="#backButton" text="Back" />
 </AnchorPane>

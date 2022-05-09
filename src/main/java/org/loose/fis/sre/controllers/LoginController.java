@@ -70,7 +70,7 @@ public class LoginController {
         ((Node) (actionEvent.getSource())).getScene().getWindow().hide();
 
         stage.setTitle("Register");
-        stage.setScene(new Scene(root, 650, 450));
+        stage.setScene(new Scene(root));
         stage.show();
     }
 }
