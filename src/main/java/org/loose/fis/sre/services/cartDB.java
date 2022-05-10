@@ -94,7 +94,7 @@ public class cartDB {
 
         if(resultSet.next())
             if(resultSet.getInt("stock") > 0){
-                sql = "INSERT INTO history_customer (id, title, author, `bought?`, `rented?`, price) VALUES (?, ?, ?, ?, ?, ?)";
+                sql = "INSERT INTO history_customer (id, title, author, bought, rented, price, period) VALUES (?, ?, ?, ?, ?, ?, ?)";
                 preparedStatement = connection.prepareStatement(sql);
 
                 preparedStatement.setString(1, UUID.randomUUID().toString());
@@ -103,6 +103,7 @@ public class cartDB {
                 preparedStatement.setInt(4, 1);
                 preparedStatement.setInt(5, 0);
                 preparedStatement.setInt(6, priceBook);
+                preparedStatement.setInt(7, 0);
 
                 preparedStatement.executeUpdate();
 
