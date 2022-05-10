@@ -1,21 +1,15 @@
 package org.loose.fis.sre.controllers;
 
-import javafx.beans.property.ReadOnlyObjectWrapper;
-import javafx.beans.value.ObservableValue;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.util.Callback;
-import okhttp3.Call;
 import org.loose.fis.sre.exceptions.NoBookFound;
 import org.loose.fis.sre.model.Books;
 
@@ -24,9 +18,6 @@ import org.loose.fis.sre.services.bookDB;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.*;
-import java.util.Comparator;
-import java.util.Locale;
-import java.util.Objects;
 import java.util.ResourceBundle;
 
 public class CustomerController implements Initializable {
@@ -55,7 +46,16 @@ public class CustomerController implements Initializable {
     private TableView<Books> table;
 
     @FXML
-    private Button viewHistory;
+    void viewHistoryButton (javafx.event.ActionEvent actionEvent) throws IOException {
+        Stage stage = new Stage();
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getClassLoader().getResource("history.fxml"));
+        Pane root = fxmlLoader.load();
+        ((Node)(actionEvent.getSource())).getScene().getWindow().hide();
+
+        stage.setTitle("History");
+        stage.setScene(new Scene(root));
+        stage.show();
+    }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
