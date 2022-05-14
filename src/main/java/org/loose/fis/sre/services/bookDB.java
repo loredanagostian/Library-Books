@@ -129,7 +129,7 @@ public class bookDB {
             if (title.equals("")) title = resultSet.getString("title");
             if (author.equals("")) author = resultSet.getString("author");
             if (description.equals("")) description = resultSet.getString("description");
-            if (price.equals("")) price = "25";
+            if (price.equals("")) price = String.valueOf(resultSet.getInt("price"));
             if (rentBuy.equals(""))
                 if (resultSet.getBoolean("for_buy")) rentBuy = "Buy";
                 else if (resultSet.getBoolean("for_rent")) rentBuy = "Rent";
@@ -149,7 +149,7 @@ public class bookDB {
         int available = 0;
         if (availability.equals("Available")) available = 1;
 
-        String sql2 = "UPDATE books SET title=?, author=?, for_buy=?, stock=?, for_rent=?, availability=? WHERE title = ? ";
+        String sql2 = "UPDATE books SET title=?, author=?, for_buy=?, stock=?, for_rent=?, availability=?, description=?, price=? WHERE title = ? ";
         preparedStatement = connection.prepareStatement(sql2);
         preparedStatement.setString(1, title);
         preparedStatement.setString(2, author);
@@ -157,7 +157,9 @@ public class bookDB {
         preparedStatement.setInt(4, Integer.parseInt(stock));
         preparedStatement.setInt(5, forRent);
         preparedStatement.setInt(6, available);
-        preparedStatement.setString(7, bookTitle);
+        preparedStatement.setString(7, description);
+        preparedStatement.setInt(8, Integer.parseInt(price));
+        preparedStatement.setString(9, bookTitle);
         int i =  preparedStatement.executeUpdate();
 
 
