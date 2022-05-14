@@ -12,13 +12,12 @@ import javafx.stage.Stage;
 import javafx.util.Callback;
 import org.loose.fis.sre.exceptions.NoBookFound;
 import org.loose.fis.sre.model.Books;
-
 import org.loose.fis.sre.services.bookDB;
+import org.loose.fis.sre.services.stageOptimise;
 
-import java.awt.print.Book;
 import java.io.IOException;
 import java.net.URL;
-import java.sql.*;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 public class CustomerController implements Initializable {
@@ -48,14 +47,7 @@ public class CustomerController implements Initializable {
 
     @FXML
     void viewHistoryButton (javafx.event.ActionEvent actionEvent) throws IOException {
-        Stage stage = new Stage();
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getClassLoader().getResource("history.fxml"));
-        Pane root = fxmlLoader.load();
-        ((Node)(actionEvent.getSource())).getScene().getWindow().hide();
-
-        stage.setTitle("History");
-        stage.setScene(new Scene(root));
-        stage.show();
+        stageOptimise.switchToStage("history.fxml", "History", actionEvent);
     }
 
     @Override
@@ -159,24 +151,10 @@ public class CustomerController implements Initializable {
     }
 
     public void logoutButton (javafx.event.ActionEvent actionEvent) throws IOException {
-        Stage stage = new Stage();
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getClassLoader().getResource("login.fxml"));
-        Pane root = fxmlLoader.load();
-        ((Node)(actionEvent.getSource())).getScene().getWindow().hide();
-
-        stage.setTitle("Log in");
-        stage.setScene(new Scene(root));
-        stage.show();
+        stageOptimise.switchToStage("login.fxml", "Log In", actionEvent);
     }
 
     public void viewCartButton(javafx.event.ActionEvent actionEvent) throws IOException {
-        Stage stage = new Stage();
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getClassLoader().getResource("cart.fxml"));
-        Pane root = fxmlLoader.load();
-        ((Node)(actionEvent.getSource())).getScene().getWindow().hide();
-
-        stage.setTitle("Cart");
-        stage.setScene(new Scene(root));
-        stage.show();
+        stageOptimise.switchToStage("cart.fxml", "Cart Items", actionEvent);
     }
 }
