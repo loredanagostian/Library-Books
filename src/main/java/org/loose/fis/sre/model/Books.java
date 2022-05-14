@@ -9,8 +9,32 @@ public class Books {
     private Integer forBuy;
     private Integer stock;
     private Integer forRent;
-    private Integer availability;
+    private String availability;
     private Integer price;
+
+    public Integer getForBuy() {
+        return forBuy;
+    }
+
+    public void setForBuy(Integer forBuy) {
+        this.forBuy = forBuy;
+    }
+
+    public Integer getForRent() {
+        return forRent;
+    }
+
+    public void setForRent(Integer forRent) {
+        this.forRent = forRent;
+    }
+
+    public String getAvailability() {
+        return availability;
+    }
+
+    public void setAvailability(String availability) {
+        this.availability = availability;
+    }
 
     public Integer getId() {
         return id;
@@ -36,36 +60,12 @@ public class Books {
         this.author = author;
     }
 
-    public Integer getForBuy() {
-        return forBuy;
-    }
-
-    public void setForBuy(Integer forBuy) {
-        this.forBuy = forBuy;
-    }
-
     public Integer getStock() {
         return stock;
     }
 
     public void setStock(Integer stock) {
         this.stock = stock;
-    }
-
-    public Integer getForRent() {
-        return forRent;
-    }
-
-    public void setForRent(Integer forRent) {
-        this.forRent = forRent;
-    }
-
-    public Integer getAvailability() {
-        return availability;
-    }
-
-    public void setAvailability(Integer availability) {
-        this.availability = availability;
     }
 
     public Integer getPrice() {
