@@ -46,13 +46,18 @@ public class bookDB {
 
         while (resultSet.next()) {
             Books book = new Books();
-            book.setId(resultSet.getInt("id"));
             book.setTitle(resultSet.getString("title"));
             book.setAuthor(resultSet.getString("author"));
-            book.setForBuy(resultSet.getInt("for_buy"));
+            book.setPrice(resultSet.getInt("price"));
+
+            if(resultSet.getInt("availability") == 1)
+                book.setAvailability("Available");
+            else
+                book.setAvailability("NOT available");
+
             book.setStock(resultSet.getInt("stock"));
             book.setForRent(resultSet.getInt("for_rent"));
-            book.setAvailability(resultSet.getInt("availability"));
+            book.setForBuy(resultSet.getInt("for_buy"));
 
             list.add(book);
         }
@@ -72,10 +77,15 @@ public class bookDB {
             book.setTitle(resultSet.getString("title"));
             book.setAuthor(resultSet.getString("author"));
             book.setPrice(resultSet.getInt("price"));
-            book.setAvailability(resultSet.getInt("availability"));
+
+            if(resultSet.getInt("availability") == 1)
+                book.setAvailability("Available");
+            else
+                book.setAvailability("NOT available");
+
             book.setStock(resultSet.getInt("stock"));
-            book.setForBuy(resultSet.getInt("for_buy"));
             book.setForRent(resultSet.getInt("for_rent"));
+            book.setForBuy(resultSet.getInt("for_buy"));
 
             list.add(book);
         }
@@ -110,10 +120,15 @@ public class bookDB {
         book.setTitle(resultSet.getString("title"));
         book.setAuthor(resultSet.getString("author"));
         book.setPrice(resultSet.getInt("price"));
-        book.setAvailability(resultSet.getInt("availability"));
+
+        if(resultSet.getInt("availability") == 1)
+            book.setAvailability("Available");
+        else
+            book.setAvailability("NOT available");
+
         book.setStock(resultSet.getInt("stock"));
-        book.setForBuy(resultSet.getInt("for_buy"));
         book.setForRent(resultSet.getInt("for_rent"));
+        book.setForBuy(resultSet.getInt("for_buy"));
 
         return book;
     }

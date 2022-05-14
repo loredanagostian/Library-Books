@@ -2,15 +2,11 @@ package org.loose.fis.sre.controllers;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import org.loose.fis.sre.exceptions.BookAlreadyRequested;
 import org.loose.fis.sre.services.rentDB;
@@ -18,7 +14,6 @@ import org.loose.fis.sre.services.stageOptimise;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.Objects;
 import java.util.Optional;
 
 public class RentController {
