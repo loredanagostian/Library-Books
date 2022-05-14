@@ -49,10 +49,10 @@ public class bookDB {
             book.setId(resultSet.getInt("id"));
             book.setTitle(resultSet.getString("title"));
             book.setAuthor(resultSet.getString("author"));
-            book.setForBuy(resultSet.getBoolean("for_buy"));
+            book.setForBuy(resultSet.getInt("for_buy"));
             book.setStock(resultSet.getInt("stock"));
-            book.setForRent(resultSet.getBoolean("for_rent"));
-            book.setAvailability(resultSet.getBoolean("availability"));
+            book.setForRent(resultSet.getInt("for_rent"));
+            book.setAvailability(resultSet.getInt("availability"));
 
             list.add(book);
         }
@@ -71,6 +71,11 @@ public class bookDB {
             Books book = new Books();
             book.setTitle(resultSet.getString("title"));
             book.setAuthor(resultSet.getString("author"));
+            book.setPrice(resultSet.getInt("price"));
+            book.setAvailability(resultSet.getInt("availability"));
+            book.setStock(resultSet.getInt("stock"));
+            book.setForBuy(resultSet.getInt("for_buy"));
+            book.setForRent(resultSet.getInt("for_rent"));
 
             list.add(book);
         }
@@ -105,6 +110,10 @@ public class bookDB {
         book.setTitle(resultSet.getString("title"));
         book.setAuthor(resultSet.getString("author"));
         book.setPrice(resultSet.getInt("price"));
+        book.setAvailability(resultSet.getInt("availability"));
+        book.setStock(resultSet.getInt("stock"));
+        book.setForBuy(resultSet.getInt("for_buy"));
+        book.setForRent(resultSet.getInt("for_rent"));
 
         return book;
     }
