@@ -1,24 +1,15 @@
 package org.loose.fis.sre.controllers;
 
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.stage.Stage;
-import org.loose.fis.sre.exceptions.UsernameAlreadyExistsException;
+import javafx.scene.control.Button;
 import org.loose.fis.sre.services.bookDB;
+import org.loose.fis.sre.services.stageOptimise;
 
 import java.io.IOException;
-import java.net.URL;
 import java.sql.SQLException;
-import java.util.Objects;
-import java.util.ResourceBundle;
 
 public class EditBookController {
 
@@ -69,14 +60,7 @@ public class EditBookController {
 
     @FXML
     public void backButton(javafx.event.ActionEvent actionEvent) throws IOException {
-        Parent root;
-        root = FXMLLoader.load(Objects.requireNonNull(getClass().getClassLoader().getResource("librarian.fxml")));
-        Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
-        ((Node)(actionEvent.getSource())).getScene().getWindow().hide();
-
-        Scene scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();
+        stageOptimise.switchToStage("librarian.fxml", "Library", actionEvent);
     }
 
     @FXML
@@ -89,7 +73,7 @@ public class EditBookController {
         String stock = stockField.getText();
         String availability = availabilityBox.getValue().toString();
 
-        String div[] = book.getText().split("\"");
+        String[] div = book.getText().split("\"");
         String bookTitle = div[1];
 
         try {

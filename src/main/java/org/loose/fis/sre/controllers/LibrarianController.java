@@ -16,8 +16,8 @@ import javafx.stage.Stage;
 import javafx.util.Callback;
 import org.loose.fis.sre.model.Books;
 import org.loose.fis.sre.services.bookDB;
+import org.loose.fis.sre.services.stageOptimise;
 
-import javax.naming.spi.InitialContextFactory;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
@@ -120,14 +120,7 @@ public class LibrarianController implements Initializable {
 
     @FXML
     public void logout (javafx.event.ActionEvent actionEvent) throws IOException {
-        Stage stage = new Stage();
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getClassLoader().getResource("login.fxml"));
-        Pane root = fxmlLoader.load();
-        ((Node)(actionEvent.getSource())).getScene().getWindow().hide();
-
-        stage.setTitle("Log in");
-        stage.setScene(new Scene(root));
-        stage.show();
+        stageOptimise.switchToStage("login.fxml", "Log In", actionEvent);
     }
 
     @FXML

@@ -64,7 +64,7 @@ public class userDB {
         preparedStatement.executeUpdate();
     }
 
-    public static void loginUser(String username, String password) throws UsernameNotFound, InvalidPassword, SQLException {
+    public static String loginUser (String username, String password) throws UsernameNotFound, InvalidPassword, SQLException {
         String sql = "SELECT * FROM users WHERE username = ?";
 
         preparedStatement = connection.prepareStatement(sql);
@@ -83,6 +83,8 @@ public class userDB {
 
         if (!resultSet.next())
             throw new InvalidPassword(password);
+
+        return resultSet.getString("role");
     }
 
     public static String encodePassword(String salt, String password) {

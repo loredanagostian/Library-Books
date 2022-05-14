@@ -13,6 +13,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import org.loose.fis.sre.exceptions.UsernameAlreadyExistsException;
+import org.loose.fis.sre.services.stageOptimise;
 import org.loose.fis.sre.services.userDB;
 
 import java.io.IOException;
@@ -54,48 +55,16 @@ public class RegistrationController {
             userDB.insertUser(user, pass, role, name, email);
             showMessage.setText("Account created successfully!");
 
-            if(role.equals("Customer")) {
-                Stage stage = new Stage();
-                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getClassLoader().getResource("customer.fxml"));
-                Pane root = fxmlLoader.load();
-                ((Node)(actionEvent.getSource())).getScene().getWindow().hide();
-
-                stage.setTitle("Register");
-                stage.setScene(new Scene(root));
-                stage.show();
-            }
-            else {
-//                Stage stage = new Stage();
-//                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getClassLoader().getResource("customer.fxml"));
-//                Pane root = fxmlLoader.load();
-//
-//                stage.setTitle("Register");
-//                stage.setScene(new Scene(root, 650, 450));
-//                stage.show();
-            }
-            if(role.equals("Librarian")) {
-                Stage stage = new Stage();
-                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getClassLoader().getResource("librarian.fxml"));
-                Pane root = fxmlLoader.load();
-                ((Node)(actionEvent.getSource())).getScene().getWindow().hide();
-
-                stage.setTitle("Register");
-                stage.setScene(new Scene(root));
-                stage.show();
-            }
+            if(role.equals("Customer"))
+                stageOptimise.switchToStage("customer.fxml", "Customer View", actionEvent);
+            else
+                stageOptimise.switchToStage("librarian.fxml", "Library", actionEvent);
         } catch (UsernameAlreadyExistsException | SQLException | IOException e) {
             showMessage.setText(e.getMessage());
         }
     }
 
     public void backToLogin(javafx.event.ActionEvent actionEvent) throws IOException {
-        Parent root;
-        root = FXMLLoader.load(Objects.requireNonNull(getClass().getClassLoader().getResource("login.fxml")));
-        Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
-        ((Node) (actionEvent.getSource())).getScene().getWindow().hide();
-
-        Scene scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();
+        stageOptimise.switchToStage("login.fxml", "Log In", actionEvent);
     }
 }
