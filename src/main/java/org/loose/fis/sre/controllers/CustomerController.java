@@ -15,6 +15,7 @@ import org.loose.fis.sre.model.Books;
 
 import org.loose.fis.sre.services.bookDB;
 
+import java.awt.print.Book;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.*;
@@ -95,10 +96,10 @@ public class CustomerController implements Initializable {
                                     BookController secondController = fxmlLoader.getController();
                                     secondController.populateWindow(book.getTitle(), book.getAuthor());
 
-                                    if(!book.getForBuy())
+                                    if(book.getForBuy() == 0)
                                         secondController.buyButton.setVisible(false);
 
-                                    if(!book.getForRent())
+                                    if(book.getForRent() == 0)
                                         secondController.rentButton.setVisible(false);
 
                                     ((Node) (actionEvent.getSource())).getScene().getWindow().hide();
@@ -135,12 +136,18 @@ public class CustomerController implements Initializable {
             Stage stage = new Stage();
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getClassLoader().getResource("book.fxml"));
             Pane root = fxmlLoader.load();
-            ((Node)(actionEvent.getSource())).getScene().getWindow().hide();
 
+            Books book = bookDB.getSearchedBooks(toBeSearched).get(0);
             BookController secondController = fxmlLoader.getController();
-            secondController.populateWindow(bookDB.getSearchedBooks(toBeSearched).get(0).getTitle(),
-                    bookDB.getSearchedBooks(toBeSearched).get(0).getAuthor());
+            secondController.populateWindow(book.getTitle(), book.getAuthor());
 
+            if(book.getForBuy() == 0)
+                secondController.buyButton.setVisible(false);
+
+            if(book.getForRent() == 0)
+                secondController.rentButton.setVisible(false);
+
+            ((Node) (actionEvent.getSource())).getScene().getWindow().hide();
             stage.setTitle("Book");
             stage.setScene(new Scene(root));
             stage.show();
