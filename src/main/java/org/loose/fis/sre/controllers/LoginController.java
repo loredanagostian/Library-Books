@@ -46,14 +46,29 @@ public class LoginController {
             userDB.loginUser(user, pass);
             showMessage.setText("Login successfully!");
 
-            Stage stage = new Stage();
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getClassLoader().getResource("customer.fxml"));
-            Pane root = fxmlLoader.load();
-            ((Node) (actionEvent.getSource())).getScene().getWindow().hide();
+            String role = userDB.Role(user);
 
-            stage.setTitle("Customer");
-            stage.setScene(new Scene(root, 650, 450));
-            stage.show();
+            if (role.equals("Customer")) {
+                Stage stage = new Stage();
+                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getClassLoader().getResource("customer.fxml"));
+                Pane root = fxmlLoader.load();
+                ((Node) (actionEvent.getSource())).getScene().getWindow().hide();
+
+                stage.setTitle("Customer");
+                stage.setScene(new Scene(root, 650, 450));
+                stage.show();
+            }
+
+            if (role.equals("Librarian")) {
+                Stage stage = new Stage();
+                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getClassLoader().getResource("librarian.fxml"));
+                Pane root = fxmlLoader.load();
+                ((Node) (actionEvent.getSource())).getScene().getWindow().hide();
+
+                stage.setTitle("Librarian");
+                stage.setScene(new Scene(root, 650, 450));
+                stage.show();
+            }
 
         } catch (UsernameNotFound | InvalidPassword | SQLException e) {
             showMessage.setText(e.getMessage());
