@@ -73,6 +73,16 @@ public class RegistrationController {
 //                stage.setScene(new Scene(root, 650, 450));
 //                stage.show();
             }
+            if(role.equals("Librarian")) {
+                Stage stage = new Stage();
+                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getClassLoader().getResource("librarian.fxml"));
+                Pane root = fxmlLoader.load();
+                ((Node)(actionEvent.getSource())).getScene().getWindow().hide();
+
+                stage.setTitle("Register");
+                stage.setScene(new Scene(root));
+                stage.show();
+            }
         } catch (UsernameAlreadyExistsException | SQLException | IOException e) {
             showMessage.setText(e.getMessage());
         }

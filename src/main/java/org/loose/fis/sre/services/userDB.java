@@ -106,4 +106,16 @@ public class userDB {
         return md;
     }
 
+    public static String Role(String user) throws SQLException{
+        String sql = "SELECT * FROM users WHERE username = ?";
+        preparedStatement = connection.prepareStatement(sql);
+        preparedStatement.setString(1, user);
+        resultSet = preparedStatement.executeQuery();
+
+        String user_role="";
+        if (resultSet.next())
+            user_role = resultSet.getString("role");
+
+        return user_role;
+    }
 }
