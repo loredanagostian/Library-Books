@@ -1,8 +1,6 @@
 package org.loose.fis.sre.controllers;
 
-import java.sql.Connection;
-import java.sql.Driver;
-import java.sql.DriverManager;
+import java.sql.*;
 
 public class dbConnection {
     public Connection dbLink;
@@ -21,5 +19,11 @@ public class dbConnection {
         }
 
         return dbLink;
+    }
+
+    public static Connection initiateConnection() throws SQLException {
+        dbConnection connectNow = new dbConnection();
+
+        return connectNow.getConnection();
     }
 }

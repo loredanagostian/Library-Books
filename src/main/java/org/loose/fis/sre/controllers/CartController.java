@@ -7,6 +7,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.util.Callback;
 import org.loose.fis.sre.exceptions.BookHas0Stock;
+import org.loose.fis.sre.exceptions.EmptyCart;
 import org.loose.fis.sre.model.CartItems;
 import org.loose.fis.sre.services.cartDB;
 import org.loose.fis.sre.services.stageOptimise;
@@ -46,6 +47,8 @@ public class CartController implements Initializable {
             showTotalPrice.setText("Your order has been \n finished successfully!");
         } catch (BookHas0Stock | SQLException e) {
             e.printStackTrace();
+        } catch (EmptyCart e) {
+            showTotalPrice.setText(e.getMessage());
         }
     }
 
@@ -92,6 +95,8 @@ public class CartController implements Initializable {
                                         showTotalPrice.setText(total.toString());
                                     } catch (SQLException e) {
                                         e.printStackTrace();
+                                    } catch (EmptyCart e) {
+                                        showTotalPrice.setText(e.getMessage());
                                     }
                                 });
 
@@ -113,6 +118,8 @@ public class CartController implements Initializable {
             showTotalPrice.setText(total.toString());
         } catch (SQLException e) {
             e.printStackTrace();
+        } catch (EmptyCart e) {
+            showTotalPrice.setText(e.getMessage());
         }
     }
 }

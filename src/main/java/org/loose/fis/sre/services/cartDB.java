@@ -5,51 +5,29 @@ import javafx.collections.ObservableList;
 import org.loose.fis.sre.controllers.dbConnection;
 import org.loose.fis.sre.exceptions.BookHas0Stock;
 import org.loose.fis.sre.exceptions.CartItemAlreadyExists;
-import org.loose.fis.sre.exceptions.UsernameAlreadyExistsException;
+import org.loose.fis.sre.exceptions.EmptyCart;
 import org.loose.fis.sre.model.CartItems;
 
-import java.sql.*;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.UUID;
 
 public class cartDB {
     static PreparedStatement preparedStatement = null;
-    static dbConnection connectNow = new dbConnection();
-    static Connection connection = connectNow.getConnection();
 
-    static String connectQuery = "SELECT title FROM books";
-    static Statement statement;
-
-    static {
-        try {
-            statement = connection.createStatement();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-    static ResultSet queryOutput;
-    static ResultSet resultSet;
-
-    static {
-        try {
-            queryOutput = statement.executeQuery(connectQuery);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public static void addCartItem(String title, String author, Integer price) throws SQLException, CartItemAlreadyExists {
+    public static void addCartItem(String title, String author, Integer price) throws SQLException, CartItemAlreadyExists, BookHas0Stock {
         String sql = "SELECT * FROM cart_items WHERE title = ?";
-        preparedStatement = connection.prepareStatement(sql);
+        preparedStatement = dbConnection.initiateConnection().prepareStatement(sql);
 
         preparedStatement.setString(1, title);
-        resultSet = preparedStatement.executeQuery();
+        ResultSet resultSet = preparedStatement.executeQuery();
 
         if (resultSet.next())
             throw new CartItemAlreadyExists(title);
 
         sql = "INSERT INTO cart_items (title, author, price) VALUES (?, ?, ?)";
-        preparedStatement = connection.prepareStatement(sql);
+        preparedStatement = dbConnection.initiateConnection().prepareStatement(sql);
 
         preparedStatement.setString(1, title);
         preparedStatement.setString(2, author);
@@ -58,11 +36,11 @@ public class cartDB {
         preparedStatement.executeUpdate();
     }
 
-    public static ObservableList<CartItems> getCartItems () throws SQLException {
+    public static ObservableList<CartItems> getCartItems () throws SQLException, EmptyCart {
         ObservableList<CartItems> list = FXCollections.observableArrayList();
         String sql = "SELECT * FROM cart_items";
-        preparedStatement = connection.prepareStatement(sql);
-        resultSet = preparedStatement.executeQuery();
+        preparedStatement = dbConnection.initiateConnection().prepareStatement(sql);
+        ResultSet resultSet = preparedStatement.executeQuery();
 
         while(resultSet.next()){
             CartItems items = new CartItems();
@@ -73,12 +51,15 @@ public class cartDB {
             list.add(items);
         }
 
+        if (list.isEmpty())
+            throw new EmptyCart();
+
         return list;
     }
 
     public static void deleteItem (String title, String author) throws SQLException {
         String sql = "DELETE FROM cart_items WHERE title = ? AND author = ?";
-        preparedStatement = connection.prepareStatement(sql);
+        preparedStatement = dbConnection.initiateConnection().prepareStatement(sql);
 
         preparedStatement.setString(1, title);
         preparedStatement.setString(2, author);
@@ -88,14 +69,14 @@ public class cartDB {
 
     public static void buyItem (String titleBook, String authorBook, Integer priceBook) throws SQLException, BookHas0Stock {
         String sql = "SELECT * FROM books WHERE title = ?";
-        preparedStatement = connection.prepareStatement(sql);
+        preparedStatement = dbConnection.initiateConnection().prepareStatement(sql);
         preparedStatement.setString(1, titleBook);
-        resultSet = preparedStatement.executeQuery();
+        ResultSet resultSet = preparedStatement.executeQuery();
 
         if(resultSet.next())
             if(resultSet.getInt("stock") > 0){
                 sql = "INSERT INTO history_customer (id, title, author, bought, rented, price, period) VALUES (?, ?, ?, ?, ?, ?, ?)";
-                preparedStatement = connection.prepareStatement(sql);
+                preparedStatement = dbConnection.initiateConnection().prepareStatement(sql);
 
                 preparedStatement.setString(1, UUID.randomUUID().toString());
                 preparedStatement.setString(2, titleBook);
@@ -110,7 +91,7 @@ public class cartDB {
                 int stockBook = resultSet.getInt("stock");
 
                 sql = "UPDATE books SET stock = ? WHERE title = ? AND author = ?";
-                preparedStatement = connection.prepareStatement(sql);
+                preparedStatement = dbConnection.initiateConnection().prepareStatement(sql);
 
                 preparedStatement.setInt(1, stockBook - 1);
                 preparedStatement.setString(2, titleBook);

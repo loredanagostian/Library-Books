@@ -1,14 +1,9 @@
 package org.loose.fis.sre.controllers;
 
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.layout.Pane;
-import javafx.stage.Stage;
 import javafx.util.Callback;
 import org.loose.fis.sre.exceptions.NoBookFound;
 import org.loose.fis.sre.model.Books;
@@ -76,29 +71,11 @@ public class CustomerController implements Initializable {
                                 btn.setText(book.getTitle());
 
                                 btn.setOnAction(actionEvent -> {
-                                    Stage stage = new Stage();
-                                    FXMLLoader fxmlLoader = new FXMLLoader(getClass().getClassLoader().getResource("book.fxml"));
-                                    Pane root = null;
                                     try {
-                                        root = fxmlLoader.load();
-                                    } catch (IOException e) {
+                                        stageOptimise.switchToStageWithPopulateTitleAuthor("book.fxml", "Book", book.getTitle(), book.getAuthor(), true, "book", actionEvent);
+                                    } catch (IOException | SQLException | NoBookFound e) {
                                         e.printStackTrace();
                                     }
-
-                                    BookController secondController = fxmlLoader.getController();
-                                    secondController.populateWindow(book.getTitle(), book.getAuthor());
-
-                                    if(book.getForBuy() == 0)
-                                        secondController.buyButton.setVisible(false);
-
-                                    if(book.getForRent() == 0)
-                                        secondController.rentButton.setVisible(false);
-
-                                    ((Node) (actionEvent.getSource())).getScene().getWindow().hide();
-                                    stage.setTitle("Book");
-                                    assert root != null;
-                                    stage.setScene(new Scene(root));
-                                    stage.show();
                                 });
 
                                 setGraphic(btn);
@@ -125,24 +102,16 @@ public class CustomerController implements Initializable {
         }
 
         try{
-            Stage stage = new Stage();
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getClassLoader().getResource("book.fxml"));
-            Pane root = fxmlLoader.load();
-
             Books book = bookDB.getSearchedBooks(toBeSearched).get(0);
-            BookController secondController = fxmlLoader.getController();
-            secondController.populateWindow(book.getTitle(), book.getAuthor());
-
-            if(book.getForBuy() == 0)
-                secondController.buyButton.setVisible(false);
-
-            if(book.getForRent() == 0)
-                secondController.rentButton.setVisible(false);
-
-            ((Node) (actionEvent.getSource())).getScene().getWindow().hide();
-            stage.setTitle("Book");
-            stage.setScene(new Scene(root));
-            stage.show();
+            stageOptimise.switchToStageWithPopulateTitleAuthor(
+                    "book.fxml",
+                    "Book",
+                    book.getTitle(),
+                    book.getAuthor(),
+                    true,
+                    "book",
+                    actionEvent
+            );
         } catch (SQLException | NoBookFound e) {
             showMessage.setText(e.getMessage());
         } catch (IOException e) {

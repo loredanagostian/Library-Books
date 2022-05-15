@@ -1,5 +1,7 @@
 package org.loose.fis.sre.model;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Objects;
 
 public class Books {
@@ -11,6 +13,15 @@ public class Books {
     private Integer forRent;
     private String availability;
     private Integer price;
+    private String description;
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
     public Integer getForBuy() {
         return forBuy;
@@ -90,5 +101,21 @@ public class Books {
     }
 
     public Books() {
+    }
+
+    public static void setBook(Books book, ResultSet resultSet) throws SQLException {
+        book.setTitle(resultSet.getString("title"));
+        book.setAuthor(resultSet.getString("author"));
+        book.setPrice(resultSet.getInt("price"));
+
+        if(resultSet.getInt("availability") == 1)
+            book.setAvailability("Available");
+        else
+            book.setAvailability("NOT available");
+
+        book.setStock(resultSet.getInt("stock"));
+        book.setForRent(resultSet.getInt("for_rent"));
+        book.setForBuy(resultSet.getInt("for_buy"));
+        book.setDescription(resultSet.getString("description"));
     }
 }

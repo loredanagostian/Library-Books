@@ -23,6 +23,12 @@ public class EditBookController {
     private Button backButton;
 
     @FXML
+    private Label titleLabel;
+
+    @FXML
+    private Label authorLabel;
+
+    @FXML
     private TextField descriptionField;
 
     @FXML
@@ -54,8 +60,9 @@ public class EditBookController {
         rentBuyBox.setValue("");
     }
 
-    public void populateWindow(String title){
-        book.setText("Edit " + "\"" + title + "\"");
+    public void populateWindow(String title, String author){
+        titleLabel.setText(title);
+        authorLabel.setText(author);
     }
 
     @FXML
@@ -73,8 +80,7 @@ public class EditBookController {
         String stock = stockField.getText();
         String availability = availabilityBox.getValue().toString();
 
-        String[] div = book.getText().split("\"");
-        String bookTitle = div[1];
+        String bookTitle = titleLabel.getText();
 
         try {
             bookDB.editBook(bookTitle, title, author, description, price, rentBuy, stock, availability);

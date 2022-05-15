@@ -14,6 +14,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.util.Callback;
+import org.loose.fis.sre.exceptions.NoBookFound;
 import org.loose.fis.sre.model.Books;
 import org.loose.fis.sre.services.bookDB;
 import org.loose.fis.sre.services.stageOptimise;
@@ -84,23 +85,11 @@ public class LibrarianController implements Initializable {
                                 Books book = getTableView().getItems().get(getIndex());
 
                                 btn.setOnAction(actionEvent -> {
-                                    Stage stage = new Stage();
-                                    FXMLLoader fxmlLoader = new FXMLLoader(getClass().getClassLoader().getResource("editBook.fxml"));
-                                    Pane root = null;
                                     try {
-                                        root = fxmlLoader.load();
-                                    } catch (IOException e) {
+                                        stageOptimise.switchToStageWithPopulateTitleAuthor("editBook.fxml", "Edit Book", book.getTitle(), book.getAuthor(), false, "edit", actionEvent);
+                                    } catch (IOException | SQLException | NoBookFound e) {
                                         e.printStackTrace();
                                     }
-
-                                    EditBookController secondController = fxmlLoader.getController();
-                                    secondController.populateWindow(book.getTitle());
-
-                                    ((Node) (actionEvent.getSource())).getScene().getWindow().hide();
-                                    stage.setTitle("Book");
-                                    assert root != null;
-                                    stage.setScene(new Scene(root));
-                                    stage.show();
                                 });
 
                                 setGraphic(btn);

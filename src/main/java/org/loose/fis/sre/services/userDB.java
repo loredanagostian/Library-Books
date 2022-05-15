@@ -13,47 +13,19 @@ import java.sql.*;
 
 public class userDB {
     static PreparedStatement preparedStatement = null;
-    static dbConnection connectNow = new dbConnection();
-    static Connection connection = connectNow.getConnection();
-
-    static String connectQuery = "SELECT username FROM users";
-    static Statement statement;
-
-    static {
-        try {
-            statement = connection.createStatement();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-    static ResultSet queryOutput;
-
-    static {
-        try {
-            queryOutput = statement.executeQuery(connectQuery);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public userDB() {
-    }
-
-    static ResultSet resultSet;
-
+    
     public static void insertUser(String username, String password, String role, String name, String email) throws UsernameAlreadyExistsException, SQLException {
         String sql = "SELECT * FROM users WHERE username = ?";
-        preparedStatement = connection.prepareStatement(sql);
+        preparedStatement = dbConnection.initiateConnection().prepareStatement(sql);
 
         preparedStatement.setString(1, username);
-        resultSet = preparedStatement.executeQuery();
+        ResultSet resultSet = preparedStatement.executeQuery();
 
         if (resultSet.next())
             throw new UsernameAlreadyExistsException(username);
 
         sql = "INSERT INTO users (username, password, role, name, email) VALUES (?, ?, ?, ?, ?)";
-        preparedStatement = connection.prepareStatement(sql);
+        preparedStatement = dbConnection.initiateConnection().prepareStatement(sql);
 
         preparedStatement.setString(1, username);
         preparedStatement.setString(2, password);
@@ -67,16 +39,16 @@ public class userDB {
     public static String loginUser (String username, String password) throws UsernameNotFound, InvalidPassword, SQLException {
         String sql = "SELECT * FROM users WHERE username = ?";
 
-        preparedStatement = connection.prepareStatement(sql);
+        preparedStatement = dbConnection.initiateConnection().prepareStatement(sql);
         preparedStatement.setString(1, username);
-        resultSet = preparedStatement.executeQuery();
+        ResultSet resultSet = preparedStatement.executeQuery();
 
         if (!resultSet.next())
             throw new UsernameNotFound(username);
 
         sql = "SELECT * FROM users WHERE username = ? AND password = ?;";
 
-        preparedStatement = connection.prepareStatement(sql);
+        preparedStatement = dbConnection.initiateConnection().prepareStatement(sql);
         preparedStatement.setString(1, username);
         preparedStatement.setString(2, password);
         resultSet = preparedStatement.executeQuery();
@@ -108,16 +80,16 @@ public class userDB {
         return md;
     }
 
-    public static String Role(String user) throws SQLException{
-        String sql = "SELECT * FROM users WHERE username = ?";
-        preparedStatement = connection.prepareStatement(sql);
-        preparedStatement.setString(1, user);
-        resultSet = preparedStatement.executeQuery();
-
-        String user_role="";
-        if (resultSet.next())
-            user_role = resultSet.getString("role");
-
-        return user_role;
-    }
+//    public static String Role(String user) throws SQLException{
+//        String sql = "SELECT * FROM users WHERE username = ?";
+//        preparedStatement = dbConnection.initiateConnection().prepareStatement(sql);
+//        preparedStatement.setString(1, user);
+//        ResultSet resultSet = preparedStatement.executeQuery();
+//
+//        String user_role="";
+//        if (resultSet.next())
+//            user_role = resultSet.getString("role");
+//
+//        return user_role;
+//    }
 }
