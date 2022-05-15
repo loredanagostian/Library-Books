@@ -9,36 +9,12 @@ import java.sql.*;
 
 public class historyDB {
     static PreparedStatement preparedStatement = null;
-    static dbConnection connectNow = new dbConnection();
-    static Connection connection = connectNow.getConnection();
-
-    static String connectQuery = "SELECT title FROM books";
-    static Statement statement;
-
-    static {
-        try {
-            statement = connection.createStatement();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-    static ResultSet queryOutput;
-    static ResultSet resultSet;
-
-    static {
-        try {
-            queryOutput = statement.executeQuery(connectQuery);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
 
     public static ObservableList<HistoryBook> getHistoryItems () throws SQLException {
         ObservableList<HistoryBook> list = FXCollections.observableArrayList();
         String sql = "SELECT * FROM history_customer";
-        preparedStatement = connection.prepareStatement(sql);
-        resultSet = preparedStatement.executeQuery();
+        preparedStatement = dbConnection.initiateConnection().prepareStatement(sql);
+        ResultSet resultSet = preparedStatement.executeQuery();
 
         while(resultSet.next()){
             HistoryBook items = new HistoryBook();

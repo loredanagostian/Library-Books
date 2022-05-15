@@ -2,14 +2,10 @@ package org.loose.fis.sre.controllers;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.layout.Pane;
-import javafx.stage.Stage;
+import org.loose.fis.sre.exceptions.BookHas0Stock;
 import org.loose.fis.sre.exceptions.CartItemAlreadyExists;
 import org.loose.fis.sre.exceptions.NoBookFound;
 import org.loose.fis.sre.model.Books;
@@ -35,18 +31,16 @@ public class BookController implements Initializable {
     @FXML
     public Button buyButton;
 
-    public void rentButton(ActionEvent actionEvent) throws IOException {
-        Stage stage = new Stage();
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getClassLoader().getResource("rent.fxml"));
-        Pane root = fxmlLoader.load();
-        ((Node)(actionEvent.getSource())).getScene().getWindow().hide();
-
-        RentController rentController = fxmlLoader.getController();
-        rentController.setLabels(titleField.getText(), authorField.getText());
-
-        stage.setTitle("Rent Request");
-        stage.setScene(new Scene(root));
-        stage.show();
+    public void rentButton(ActionEvent actionEvent) throws IOException, SQLException, NoBookFound {
+        stageOptimise.switchToStageWithPopulateTitleAuthor(
+                "rent.fxml",
+                "Rent Request",
+                titleField.getText(),
+                authorField.getText(),
+                false,
+                "rent",
+                actionEvent
+        );
     }
 
     @FXML
@@ -75,7 +69,7 @@ public class BookController implements Initializable {
             cartDB.addCartItem(book.getTitle(), book.getAuthor(), book.getPrice());
 
             stageOptimise.switchToStage("cart.fxml", "Cart", actionEvent);
-        } catch (CartItemAlreadyExists e) {
+        } catch (CartItemAlreadyExists | BookHas0Stock e) {
             e.printStackTrace();
         }
     }

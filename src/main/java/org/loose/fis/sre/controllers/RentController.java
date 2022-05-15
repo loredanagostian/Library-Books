@@ -2,12 +2,10 @@ package org.loose.fis.sre.controllers;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.stage.Stage;
 import org.loose.fis.sre.exceptions.BookAlreadyRequested;
 import org.loose.fis.sre.services.rentDB;
 import org.loose.fis.sre.services.stageOptimise;
@@ -46,8 +44,6 @@ public class RentController {
 
         try{
             rentDB.rentBook(showTitle.getText(), showAuthor.getText(), period);
-            Scene scene;
-            Stage stage;
 
             Alert alert = new Alert(Alert.AlertType.NONE);
             alert.setAlertType(Alert.AlertType.INFORMATION);
@@ -66,7 +62,7 @@ public class RentController {
         }
     }
 
-    public void setLabels(String title, String author){
+    public void populateWindow(String title, String author){
         showTitle.setText(title);
         showAuthor.setText(author);
     }
