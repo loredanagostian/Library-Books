@@ -139,7 +139,7 @@ public class bookDB {
             available = 1;
 
         String sql2 = "UPDATE books SET title=?, author=?, for_buy=?, stock=?, for_rent=?, availability=?, description=?, price=? WHERE title = ? ";
-        preparedStatement =dbConnection.initiateConnection().prepareStatement(sql2);
+        preparedStatement = dbConnection.initiateConnection().prepareStatement(sql2);
         preparedStatement.setString(1, title);
         preparedStatement.setString(2, author);
         preparedStatement.setInt(3, forBuy);
