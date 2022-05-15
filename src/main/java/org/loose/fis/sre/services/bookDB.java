@@ -4,10 +4,12 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import org.loose.fis.sre.controllers.dbConnection;
 import org.loose.fis.sre.exceptions.NoBookFound;
+import org.loose.fis.sre.exceptions.*;
 import org.loose.fis.sre.model.Books;
 
 import java.sql.*;
 import java.util.NoSuchElementException;
+import java.util.UUID;
 
 import static org.loose.fis.sre.model.Books.setBook;
 
@@ -150,5 +152,42 @@ public class bookDB {
         preparedStatement.setInt(8, Integer.parseInt(price));
         preparedStatement.setString(9, bookTitle);
         int i =  preparedStatement.executeUpdate();
+    }
+
+    public static void insertBook(String title, String author, String description, String price, String rentBuy, String stock, String availability) throws BookAlreadyExistsException, SQLException {
+        String sql = "SELECT * FROM books WHERE title = ? AND author = ?";
+        preparedStatement = dbConnection.initiateConnection().prepareStatement(sql);
+
+        preparedStatement.setString(1, title);
+        preparedStatement.setString(2, author);
+        ResultSet resultSet = preparedStatement.executeQuery();
+
+        if (resultSet.next())
+            throw new BookAlreadyExistsException(title, author);
+
+        sql = "INSERT INTO books (id, title, author, for_buy, stock, for_rent, availability, description, price) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        preparedStatement = dbConnection.initiateConnection().prepareStatement(sql);
+
+        int forRent = 0, forBuy = 0;
+        if (rentBuy.equals("Buy")) forBuy = 1;
+        else if (rentBuy.equals("Rent")) forRent = 1;
+        else {
+            forBuy = 1;
+            forRent = 1;
+        }
+        int available = 0;
+        if (availability.equals("Available")) available = 1;
+
+        preparedStatement.setString(1, UUID.randomUUID().toString());
+        preparedStatement.setString(2, title);
+        preparedStatement.setString(3, author);
+        preparedStatement.setInt(4, forBuy);
+        preparedStatement.setInt(5, Integer.parseInt(stock));
+        preparedStatement.setInt(6, forRent);
+        preparedStatement.setInt(7, available);
+        preparedStatement.setString(8, description);
+        preparedStatement.setInt(9, Integer.parseInt(price));
+
+        preparedStatement.executeUpdate();
     }
 }

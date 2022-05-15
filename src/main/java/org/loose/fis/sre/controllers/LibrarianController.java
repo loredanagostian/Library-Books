@@ -54,8 +54,8 @@ public class LibrarianController implements Initializable {
     private Button viewRequests;
 
     @FXML
-    void addBook(ActionEvent event) {
-
+    public void addBook(javafx.event.ActionEvent actionEvent) throws IOException {
+        stageOptimise.switchToStage("addBook.fxml", "Add Book", actionEvent);
     }
 
     @Override
