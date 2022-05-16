@@ -14,17 +14,18 @@
             <Font size="23.0" />
          </font>
       </Label>
-      <Button fx:id="addBook" layoutX="97.0" layoutY="77.0" mnemonicParsing="false" onAction="#addBook" text="ADD BOOK" />
-      <Button fx:id="viewRequests" layoutX="249.0" layoutY="77.0" mnemonicParsing="false" onAction="#viewRequests" text="VIEW REQUESTS" />
-      <Button fx:id="viewHistory" layoutX="431.0" layoutY="77.0" mnemonicParsing="false" onAction="#viewHistory" text="VIEW HISTORY" />
-      <TableView fx:id="table" layoutX="97.0" layoutY="123.0" prefHeight="200.0" prefWidth="429.0">
+      <Button fx:id="addBook" layoutX="53.0" layoutY="77.0" mnemonicParsing="false" onAction="#addBook" prefHeight="25.0" prefWidth="87.0" text="ADD BOOK" />
+      <Button fx:id="viewRequests" layoutX="243.0" layoutY="77.0" mnemonicParsing="false" onAction="#viewRequests" prefHeight="25.0" prefWidth="115.0" text="VIEW REQUESTS" />
+      <Button fx:id="viewHistory" layoutX="446.0" layoutY="77.0" mnemonicParsing="false" onAction="#viewHistory" prefHeight="25.0" prefWidth="103.0" text="VIEW HISTORY" />
+      <TableView fx:id="table" layoutX="53.0" layoutY="122.0" prefHeight="200.0" prefWidth="496.0">
         <columns>
-          <TableColumn fx:id="colTitle" prefWidth="143.0" text="Title" />
-          <TableColumn fx:id="colAuthor" prefWidth="141.0" text="Author" />
-            <TableColumn fx:id="colAvailability" prefWidth="85.0" text="Availability" />
-            <TableColumn fx:id="colEdit" prefWidth="59.0" />
+          <TableColumn fx:id="colTitle" prefWidth="136.0" text="Title" />
+          <TableColumn fx:id="colAuthor" prefWidth="140.0" text="Author" />
+            <TableColumn fx:id="colAvailability" prefWidth="86.0" text="Availability" />
+            <TableColumn fx:id="colEdit" prefWidth="54.0" />
+            <TableColumn fx:id="colDelete" prefWidth="87.0" />
         </columns>
       </TableView>
-      <Button fx:id="logout" layoutX="467.0" layoutY="338.0" mnemonicParsing="false" onAction="#logout" text="Log Out" />
+      <Button fx:id="logout" layoutX="473.0" layoutY="336.0" mnemonicParsing="false" onAction="#logout" prefHeight="34.0" prefWidth="76.0" text="Log Out" />
    </children>
 </AnchorPane>

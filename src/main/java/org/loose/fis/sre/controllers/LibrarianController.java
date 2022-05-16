@@ -6,15 +6,12 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableCell;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.util.Callback;
-import org.loose.fis.sre.exceptions.NoBookFound;
+import org.loose.fis.sre.exceptions.BookAlreadyExistsException;
 import org.loose.fis.sre.model.Books;
 import org.loose.fis.sre.services.bookDB;
 import org.loose.fis.sre.services.stageOptimise;
@@ -22,6 +19,7 @@ import org.loose.fis.sre.services.stageOptimise;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class LibrarianController implements Initializable {
@@ -34,6 +32,9 @@ public class LibrarianController implements Initializable {
 
     @FXML
     private TableColumn<Books, Boolean> colAvailability;
+
+    @FXML
+    private TableColumn<Books, String> colDelete;
 
     @FXML
     private TableColumn<Books, String> colEdit;
@@ -66,9 +67,9 @@ public class LibrarianController implements Initializable {
             colAuthor.setCellValueFactory(new PropertyValueFactory<>("author"));
             colAvailability.setCellValueFactory(new PropertyValueFactory<>("availability"));
             colEdit.setCellValueFactory(new PropertyValueFactory<>(""));
+            colDelete.setCellValueFactory(new PropertyValueFactory<>(""));
 
-            Callback<TableColumn<Books, String>, TableCell<Books, String>> cellFactory
-                    = new Callback<>() {
+            Callback<TableColumn<Books, String>, TableCell<Books, String>> cellFactory = new Callback<>() {
                 @Override
                 public TableCell<Books, String> call(TableColumn<Books, String> param) {
                     return new TableCell<>() {
@@ -85,26 +86,83 @@ public class LibrarianController implements Initializable {
                                 Books book = getTableView().getItems().get(getIndex());
 
                                 btn.setOnAction(actionEvent -> {
+                                    Stage stage = new Stage();
+                                    FXMLLoader fxmlLoader = new FXMLLoader(getClass().getClassLoader().getResource("editBook.fxml"));
+                                    Pane root = null;
                                     try {
-                                        stageOptimise.switchToStageWithPopulateTitleAuthor("editBook.fxml", "Edit Book", book.getTitle(), book.getAuthor(), false, "edit", actionEvent);
-                                    } catch (IOException | SQLException | NoBookFound e) {
+                                        root = fxmlLoader.load();
+                                    } catch (IOException e) {
                                         e.printStackTrace();
                                     }
-                                });
 
+                                    EditBookController secondController = fxmlLoader.getController();
+                                    secondController.populateWindow(book.getTitle(), book.getAuthor());
+
+                                    ((Node) (actionEvent.getSource())).getScene().getWindow().hide();
+                                    stage.setTitle("Book");
+                                    assert root != null;
+                                    stage.setScene(new Scene(root));
+                                    stage.show();
+                                });
                                 setGraphic(btn);
                                 setText(null);
+
                             }
                         }
                     };
                 }
             };
             colEdit.setCellFactory(cellFactory);
-
             table.setItems(bookDB.getBooks());
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+
+
+        Callback<TableColumn<Books, String>, TableCell<Books, String>> cellFactory2 = new Callback<>() {
+            @Override
+            public TableCell<Books, String> call(TableColumn<Books, String> param) {
+                return new TableCell<>() {
+                    final Button btn = new Button("Delete");
+
+                    @Override
+                    public void updateItem(String item, boolean empty) {
+                        super.updateItem(item, empty);
+
+                        if (empty) {
+                            setGraphic(null);
+                            setText(null);
+                        } else {
+                            Books book = getTableView().getItems().get(getIndex());
+
+                            btn.setOnAction(actionEvent -> {
+
+                                try {
+                                    bookDB.deleteBook(book.getTitle(), book.getAuthor());
+
+                                    Alert alert = new Alert(Alert.AlertType.NONE);
+                                    alert.setAlertType(Alert.AlertType.INFORMATION);
+                                    alert.setHeaderText("Confirmation");
+                                    alert.setContentText("Book successfully deleted!");
+                                    alert.show();
+
+                                    table.setItems(bookDB.getBooks());
+
+                                }catch (SQLException e) {
+                                    e.printStackTrace();
+                                }
+                            });
+                            setGraphic(btn);
+                            setText(null);
+                        }
+                    }
+                };
+            }
+        };
+        colDelete.setCellFactory(cellFactory2);
+        table.setItems(bookDB.getBooks());
+
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+
     }
 
     @FXML
