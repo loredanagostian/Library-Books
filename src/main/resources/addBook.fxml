@@ -21,7 +21,7 @@
       <Label layoutX="148.0" layoutY="183.0" text="Price" />
       <Label layoutX="148.0" layoutY="216.0" text="To be for:" />
       <Label layoutX="148.0" layoutY="251.0" text="Stock" />
-      <Label layoutX="148.0" layoutY="286.0" text="Availability" />
+      <Label layoutX="124.0" layoutY="286.0" text="Availability for rent" />
       <TextField fx:id="titleField" layoutX="248.0" layoutY="86.0" prefHeight="25.0" prefWidth="204.0" />
       <TextField fx:id="authorField" layoutX="248.0" layoutY="118.0" prefHeight="25.0" prefWidth="204.0" />
       <TextField fx:id="descriptionField" layoutX="248.0" layoutY="148.0" prefHeight="25.0" prefWidth="204.0" />

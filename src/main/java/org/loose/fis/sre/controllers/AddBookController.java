@@ -67,12 +67,25 @@ public class AddBookController {
         String stock = stockField.getText();
         String availability = availabilityBox.getValue().toString();
 
-        if(title.isEmpty() || author.isEmpty() || description.isEmpty() || price.isEmpty() || stock.isEmpty() || availability.equals("")){
+
+        if (rentBuy.equals("Rent")) {
+            if (title.isEmpty() || author.isEmpty() || description.isEmpty() || availability.equals("")){
+                showMessage.setText("You must fill in all the required details!");
+                return;
+            }}
+        else if (rentBuy.equals("Buy")) {
+            if (title.isEmpty() || author.isEmpty() || description.isEmpty() || price.isEmpty() || stock.isEmpty()){
+                showMessage.setText("You must fill in all the required details!");
+                return;
+            }}
+        else {if (title.isEmpty() || author.isEmpty() || description.isEmpty() || rentBuy.equals("") || stock.isEmpty() || price.isEmpty() || availability.equals("")){
             showMessage.setText("You must fill in all the required details!");
-            return;
-        }
+            return;  }
+         }
 
         try {
+            if (price.isEmpty()) price = "0";
+            if (stock.isEmpty()) stock = "0";
             bookDB.insertBook(title, author, description, price, rentBuy, stock, availability);
 
             Alert alert = new Alert(Alert.AlertType.NONE);

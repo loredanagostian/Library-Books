@@ -190,4 +190,14 @@ public class bookDB {
 
         preparedStatement.executeUpdate();
     }
+
+    public static void deleteBook(String title, String author) throws SQLException{
+        String sql = "DELETE FROM books WHERE title = ? AND author = ?";
+        preparedStatement = dbConnection.initiateConnection().prepareStatement(sql);
+
+        preparedStatement.setString(1, title);
+        preparedStatement.setString(2, author);
+
+        int i = preparedStatement.executeUpdate();
+    }
 }
