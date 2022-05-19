@@ -83,8 +83,14 @@ public class EditBookController {
         String bookTitle = titleLabel.getText();
 
         try {
-            bookDB.editBook(bookTitle, title, author, description, price, rentBuy, stock, availability);
-            showMessage.setText("Book successfully edited!");
+            if(!title.isEmpty() || !author.isEmpty() || !description.isEmpty()
+                || !price.isEmpty() || !rentBuy.isEmpty() || !stock.isEmpty() || !availability.isEmpty()){
+                bookDB.editBook(bookTitle, title, author, description, price, rentBuy, stock, availability);
+                showMessage.setText("Book successfully edited!");
+            }
+            else
+                showMessage.setText("You must fill in at least 1 field!");
+
         }catch (SQLException e) {
             showMessage.setText(e.getMessage());
         }
