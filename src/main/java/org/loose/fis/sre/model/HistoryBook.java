@@ -10,6 +10,7 @@ public class HistoryBook {
     private Integer price;
     private Integer period;
     private String client;
+    private String borrowedSold;
 
 
     public HistoryBook(String title, String author, Integer bought, Integer rented, Integer price, Integer period, String client) {
@@ -25,6 +26,10 @@ public class HistoryBook {
     public HistoryBook() {
 
     }
+
+    public String getBorrowedSold() { return borrowedSold; }
+
+    public void setBorrowedSold(String borrowedSold) { this.borrowedSold = borrowedSold; }
 
     public String getTitle() {
         return title;
