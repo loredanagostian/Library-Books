@@ -1,9 +1,13 @@
 package org.loose.fis.sre.services;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import org.loose.fis.sre.controllers.dbConnection;
 import org.loose.fis.sre.exceptions.InvalidPassword;
 import org.loose.fis.sre.exceptions.UsernameAlreadyExistsException;
 import org.loose.fis.sre.exceptions.UsernameNotFound;
+import org.loose.fis.sre.model.HistoryBook;
+import org.loose.fis.sre.model.User;
 
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
@@ -14,8 +18,8 @@ import java.sql.*;
 public class userDB {
     static PreparedStatement preparedStatement = null;
     
-    public static void insertUser(String username, String password, String role, String name, String email) throws UsernameAlreadyExistsException, SQLException {
-        String sql = "SELECT * FROM users WHERE username = ?";
+    public static void insertUser(String username, String password, String role, String name, String email, String tableName) throws UsernameAlreadyExistsException, SQLException {
+        String sql = "SELECT * FROM " + tableName + " WHERE username = ?";
         preparedStatement = dbConnection.initiateConnection().prepareStatement(sql);
 
         preparedStatement.setString(1, username);
@@ -24,7 +28,7 @@ public class userDB {
         if (resultSet.next())
             throw new UsernameAlreadyExistsException(username);
 
-        sql = "INSERT INTO users (username, password, role, name, email) VALUES (?, ?, ?, ?, ?)";
+        sql = "INSERT INTO " + tableName + " (username, password, role, name, email) VALUES (?, ?, ?, ?, ?)";
         preparedStatement = dbConnection.initiateConnection().prepareStatement(sql);
 
         preparedStatement.setString(1, username);
@@ -78,6 +82,26 @@ public class userDB {
             throw new IllegalStateException("SHA-512 does not exist!");
         }
         return md;
+    }
+
+    public static ObservableList<User> getUsers (String tableName) throws SQLException {
+        ObservableList<User> list = FXCollections.observableArrayList();
+        String sql = "SELECT * FROM " + tableName;
+        preparedStatement = dbConnection.initiateConnection().prepareStatement(sql);
+        ResultSet resultSet = preparedStatement.executeQuery();
+
+        while(resultSet.next()){
+            User user = new User();
+            user.setUsername(resultSet.getString("username"));
+            user.setPassword(resultSet.getString("password"));
+            user.setRole(resultSet.getString("role"));
+            user.setName(resultSet.getString("name"));
+            user.setEmail(resultSet.getString("email"));
+
+            list.add(user);
+        }
+
+        return list;
     }
 
 //    public static String Role(String user) throws SQLException{

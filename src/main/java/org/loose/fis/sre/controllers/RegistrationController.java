@@ -44,7 +44,7 @@ public class RegistrationController {
         }
 
         try {
-            userDB.insertUser(user, pass, role, name, email);
+            userDB.insertUser(user, pass, role, name, email, "users");
             showMessage.setText("Account created successfully!");
 
             if(role.equals("Customer"))
