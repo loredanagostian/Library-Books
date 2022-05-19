@@ -1,4 +1,4 @@
-package org.loose.fis.sre;
+package org.loose.fis.sre.controllers;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -9,6 +9,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.loose.fis.sre.dbConnectionTest;
 import org.loose.fis.sre.services.stageOptimise;
 import org.loose.fis.sre.services.userDB;
 import org.testfx.api.FxRobot;
@@ -22,9 +23,8 @@ import java.sql.SQLException;
 import static org.testfx.assertions.api.Assertions.assertThat;
 
 @ExtendWith(ApplicationExtension.class)
-public class userDBTest {
+public class registerTest {
 
-    private Connection con;
     public static final String USERNAME = "test";
     public static final String PASSWORD = "123";
     public static final String NAME = "testTest";
@@ -42,7 +42,7 @@ public class userDBTest {
 
     @BeforeEach
     void connectDB() throws SQLException {
-        con = dbConnectionTest.getConnection();
+        Connection con = dbConnectionTest.getConnection();
         PreparedStatement preparedStatement = con.prepareStatement("DELETE FROM users_test");
         preparedStatement.executeUpdate();
     }
@@ -95,7 +95,7 @@ public class userDBTest {
         robot.write("");
         robot.clickOn("#passwordField");
         robot.write("");
-        robot.clickOn("#roleBox").clickOn("Librarian");
+        robot.clickOn("#roleBox").clickOn("Library");
         robot.clickOn("#nameField");
         robot.write(NAME);
         robot.clickOn("#emailField");

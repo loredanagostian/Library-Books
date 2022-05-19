@@ -40,8 +40,8 @@ public class userDB {
         preparedStatement.executeUpdate();
     }
 
-    public static String loginUser (String username, String password) throws UsernameNotFound, InvalidPassword, SQLException {
-        String sql = "SELECT * FROM users WHERE username = ?";
+    public static String loginUser (String username, String password, String tableName) throws UsernameNotFound, InvalidPassword, SQLException {
+        String sql = "SELECT * FROM " + tableName + " WHERE username = ?";
 
         preparedStatement = dbConnection.initiateConnection().prepareStatement(sql);
         preparedStatement.setString(1, username);
@@ -50,7 +50,7 @@ public class userDB {
         if (!resultSet.next())
             throw new UsernameNotFound(username);
 
-        sql = "SELECT * FROM users WHERE username = ? AND password = ?;";
+        sql = "SELECT * FROM " + tableName + " WHERE username = ? AND password = ?;";
 
         preparedStatement = dbConnection.initiateConnection().prepareStatement(sql);
         preparedStatement.setString(1, username);
@@ -103,17 +103,4 @@ public class userDB {
 
         return list;
     }
-
-//    public static String Role(String user) throws SQLException{
-//        String sql = "SELECT * FROM users WHERE username = ?";
-//        preparedStatement = dbConnection.initiateConnection().prepareStatement(sql);
-//        preparedStatement.setString(1, user);
-//        ResultSet resultSet = preparedStatement.executeQuery();
-//
-//        String user_role="";
-//        if (resultSet.next())
-//            user_role = resultSet.getString("role");
-//
-//        return user_role;
-//    }
 }
