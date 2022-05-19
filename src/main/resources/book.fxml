@@ -5,9 +5,17 @@
 <?import javafx.scene.layout.AnchorPane?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="276.0" prefWidth="426.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.loose.fis.sre.controllers.BookController">
-    <Label fx:id="titleField" layoutX="94.0" layoutY="42.0" prefHeight="30.0" prefWidth="238.0" text="Title" />
-    <Label fx:id="authorField" layoutX="93.0" layoutY="89.0" prefHeight="30.0" prefWidth="238.0" text="Author" />
-    <Button fx:id="buyButton" layoutX="186.0" layoutY="138.0" mnemonicParsing="false" onAction="#buyButton" text="Buy" />
-    <Button fx:id="rentButton" layoutX="184.0" layoutY="199.0" mnemonicParsing="false" onAction="#rentButton" text="Rent" />
+    <Label fx:id="titleField" layoutX="93.0" layoutY="16.0" prefHeight="30.0" prefWidth="238.0" text="Title" />
+    <Label fx:id="authorField" layoutX="117.0" layoutY="46.0" prefHeight="30.0" prefWidth="238.0" text="Author" />
+    <Button fx:id="buyButton" layoutX="149.0" layoutY="187.0" mnemonicParsing="false" onAction="#buyButton" prefHeight="37.0" prefWidth="51.0" text="Buy" />
+    <Button fx:id="rentButton" layoutX="221.0" layoutY="187.0" mnemonicParsing="false" onAction="#rentButton" prefHeight="37.0" prefWidth="51.0" text="Rent" />
     <Button fx:id="backButton" layoutX="363.0" layoutY="225.0" mnemonicParsing="false" onAction="#backButton" text="Back" />
+   <Label fx:id="username" layoutX="15.0" layoutY="14.0" prefHeight="17.0" prefWidth="67.0" />
+   <Label layoutX="92.0" layoutY="108.0" prefHeight="30.0" prefWidth="33.0" text="Price:" />
+   <Label layoutX="92.0" layoutY="78.0" prefHeight="30.0" prefWidth="67.0" text="Description:" />
+   <Label layoutX="93.0" layoutY="53.0" text="by" />
+   <Label layoutX="92.0" layoutY="139.0" prefHeight="30.0" prefWidth="33.0" text="Stock:" />
+   <Label fx:id="descriptionField" layoutX="160.0" layoutY="80.0" prefHeight="25.0" prefWidth="250.0" />
+   <Label fx:id="priceField" layoutX="125.0" layoutY="111.0" prefHeight="25.0" prefWidth="280.0" />
+   <Label fx:id="stockField" layoutX="132.0" layoutY="142.0" prefHeight="25.0" prefWidth="280.0" />
 </AnchorPane>

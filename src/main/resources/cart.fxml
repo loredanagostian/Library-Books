@@ -7,10 +7,9 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="509.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.loose.fis.sre.controllers.CartController">
    <children>
-      <Label layoutX="25.0" layoutY="46.0" prefHeight="31.0" prefWidth="68.0" text="Cart" underline="true">
+      <Label layoutX="221.0" layoutY="45.0" prefHeight="31.0" prefWidth="68.0" text="Cart" underline="true">
          <font>
             <Font size="25.0" />
          </font>
@@ -20,7 +19,7 @@
           <TableColumn fx:id="colTitle" prefWidth="150.0" text="Title" />
           <TableColumn fx:id="colAuthor" prefWidth="150.0" text="Author" />
             <TableColumn fx:id="colPrice" prefWidth="75.0" text="Price" />
-            <TableColumn fx:id="colButton" prefWidth="75.0" />
+            <TableColumn fx:id="colButton" prefWidth="84.0" />
         </columns>
       </TableView>
       <Label layoutX="165.0" layoutY="341.0" text="Total">
@@ -35,5 +34,6 @@
       </Label>
       <Button fx:id="buyButton" layoutX="415.0" layoutY="334.0" mnemonicParsing="false" onAction="#buyButton" prefHeight="36.0" prefWidth="54.0" text="Buy" />
       <Button fx:id="backButton" layoutX="31.0" layoutY="334.0" mnemonicParsing="false" onAction="#backButton" prefHeight="36.0" prefWidth="54.0" text="Back" />
+      <Label fx:id="username" layoutX="14.0" layoutY="14.0" prefHeight="17.0" prefWidth="78.0" />
    </children>
 </AnchorPane>

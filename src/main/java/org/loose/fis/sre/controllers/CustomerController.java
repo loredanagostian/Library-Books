@@ -1,9 +1,15 @@
 package org.loose.fis.sre.controllers;
 
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.FlowPane;
+import javafx.scene.layout.Pane;
+import javafx.stage.Stage;
 import javafx.util.Callback;
 import org.loose.fis.sre.exceptions.NoBookFound;
 import org.loose.fis.sre.model.Books;
@@ -16,6 +22,7 @@ import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 public class CustomerController implements Initializable {
+
     @FXML
     private TableColumn<Books, String> colAuthor;
 
@@ -27,6 +34,9 @@ public class CustomerController implements Initializable {
 
     @FXML
     private Label showMessage;
+
+    @FXML
+    public Label usernameLabel;
 
     @FXML
     public Button searchButton;
@@ -42,8 +52,30 @@ public class CustomerController implements Initializable {
 
     @FXML
     void viewHistoryButton (javafx.event.ActionEvent actionEvent) throws IOException {
-        stageOptimise.switchToStage("history.fxml", "History", actionEvent);
+        Stage stage = new Stage();
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getClassLoader().getResource("history.fxml"));
+        Pane root = null;
+        try {
+            root = fxmlLoader.load();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        HistoryController secondController = fxmlLoader.getController();
+        secondController.populateWindow(usernameLabel.getText());
+        secondController.initialize2();
+
+        ((Node) (actionEvent.getSource())).getScene().getWindow().hide();
+        stage.setTitle("History");
+        assert root != null;
+        stage.setScene(new Scene(root));
+        stage.show();
     }
+
+    public void populateWindow(String user){
+        usernameLabel.setText(user);
+    }
+
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -72,7 +104,23 @@ public class CustomerController implements Initializable {
 
                                 btn.setOnAction(actionEvent -> {
                                     try {
-                                        stageOptimise.switchToStageWithPopulateTitleAuthor("book.fxml", "Book", book.getTitle(), book.getAuthor(), true, "book", actionEvent);
+                                        Stage stage = new Stage();
+                                        FXMLLoader fxmlLoader = new FXMLLoader(stageOptimise.class.getClassLoader().getResource("book.fxml"));
+                                        Pane root = fxmlLoader.load();
+
+                                        BookController secondController = fxmlLoader.getController();
+                                        secondController.populateWindow(usernameLabel.getText(), book.getTitle(), book.getAuthor(), book.getDescription(), book.getPrice(), book.getStock());
+
+                                        if(bookDB.searchBook(book.getTitle(), book.getAuthor()).getForBuy() == 0 || bookDB.searchBook(book.getTitle(), book.getAuthor()).getStock() == 0)
+                                            secondController.buyButton.setVisible(false);
+
+                                        if(bookDB.searchBook(book.getTitle(), book.getAuthor()).getForRent() == 0 || bookDB.searchBook(book.getTitle(), book.getAuthor()).getAvailability().equals("NOT available"))
+                                            secondController.rentButton.setVisible(false);
+
+                                        ((Node) (actionEvent.getSource())).getScene().getWindow().hide();
+                                        stage.setTitle("Book");
+                                        stage.setScene(new Scene(root));
+                                        stage.show();
                                     } catch (IOException | SQLException | NoBookFound e) {
                                         e.printStackTrace();
                                     }
@@ -93,6 +141,7 @@ public class CustomerController implements Initializable {
         }
     }
 
+
     public void searchButton (javafx.event.ActionEvent actionEvent){
         String toBeSearched = searchField.getText();
 
@@ -104,6 +153,7 @@ public class CustomerController implements Initializable {
         try{
             Books book = bookDB.getSearchedBooks(toBeSearched).get(0);
             stageOptimise.switchToStageWithPopulateTitleAuthor(
+                    usernameLabel.getText(),
                     "book.fxml",
                     "Book",
                     book.getTitle(),
@@ -124,6 +174,24 @@ public class CustomerController implements Initializable {
     }
 
     public void viewCartButton(javafx.event.ActionEvent actionEvent) throws IOException {
-        stageOptimise.switchToStage("cart.fxml", "Cart Items", actionEvent);
+        Stage stage = new Stage();
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getClassLoader().getResource("cart.fxml"));
+        Pane root = null;
+        try {
+            root = fxmlLoader.load();
+        } catch (IOException e) {
+            e.printStackTrace();
+        };
+
+        CartController secondController = fxmlLoader.getController();
+        secondController.populateWindow(usernameLabel.getText());
+        secondController.initialize2();
+
+        ((Node) (actionEvent.getSource())).getScene().getWindow().hide();
+        stage.setTitle("Cart Items");
+        assert root != null;
+        stage.setScene(new Scene(root));
+        stage.show();
     }
+
 }
