@@ -2,10 +2,16 @@ package org.loose.fis.sre.controllers;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.Pane;
+import javafx.stage.Stage;
 import javafx.util.Callback;
+import org.loose.fis.sre.Main;
 import org.loose.fis.sre.exceptions.BookHas0Stock;
 import org.loose.fis.sre.exceptions.EmptyCart;
 import org.loose.fis.sre.model.CartItems;
@@ -18,7 +24,9 @@ import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 public class CartController implements Initializable {
+    @FXML
     public Button backButton;
+
     @FXML
     private TableColumn<CartItems, String> colButton;
 
@@ -35,13 +43,20 @@ public class CartController implements Initializable {
     private Label showTotalPrice;
 
     @FXML
+    private Label username;
+
+    @FXML
     private TableView<CartItems> table;
+
+    public void populateWindow(String user) {
+        username.setText(user);
+    }
 
     @FXML
     public void buyButton() {
         try {
-            for(CartItems item : cartDB.getCartItems())
-                cartDB.buyItem(item.getTitle(), item.getAuthor(), item.getPrice());
+            for(CartItems item : cartDB.getCartItems(username.getText()))
+                cartDB.buyItem(username.getText(), item.getTitle(), item.getAuthor(), item.getPrice());
 
             table.setItems(null);
             showTotalPrice.setText("Your order has been \n finished successfully!");
@@ -54,10 +69,26 @@ public class CartController implements Initializable {
 
     @FXML
     public void backButton(ActionEvent actionEvent) throws IOException {
-        stageOptimise.switchToStage("customer.fxml", "Customer View", actionEvent);
+        Stage stage = new Stage();
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getClassLoader().getResource("customer.fxml"));
+        Pane root = null;
+        try {
+            root = fxmlLoader.load();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        CustomerController secondController = fxmlLoader.getController();
+        secondController.populateWindow(username.getText());
+
+        ((Node) (actionEvent.getSource())).getScene().getWindow().hide();
+        stage.setTitle("Customer View");
+        assert root != null;
+        stage.setScene(new Scene(root));
+        stage.show();
     }
 
-    @Override
+    @FXML
     public void initialize(URL location, ResourceBundle resources) {
         try {
             table.setItems(null);
@@ -65,6 +96,8 @@ public class CartController implements Initializable {
             colAuthor.setCellValueFactory(new PropertyValueFactory<>("author"));
             colPrice.setCellValueFactory(new PropertyValueFactory<>("price"));
             colButton.setCellValueFactory(new PropertyValueFactory<>(""));
+
+            username.setText("iuliana");
 
             Callback<TableColumn<CartItems, String>, TableCell<CartItems, String>> cellFactory
                     = new Callback<>() {
@@ -85,11 +118,11 @@ public class CartController implements Initializable {
 
                                 btn.setOnAction(actionEvent -> {
                                     try {
-                                        cartDB.deleteItem(itemDeleted.getTitle(), itemDeleted.getAuthor());
-                                        table.setItems(cartDB.getCartItems());
+                                        cartDB.deleteItem(itemDeleted.getTitle(), itemDeleted.getAuthor(), username.getText());
+                                        table.setItems(cartDB.getCartItems(username.getText()));
 
                                         Integer total = 0;
-                                        for(CartItems cart_item : cartDB.getCartItems())
+                                        for(CartItems cart_item : cartDB.getCartItems(username.getText()))
                                             total += cart_item.getPrice();
 
                                         showTotalPrice.setText(total.toString());
@@ -109,10 +142,10 @@ public class CartController implements Initializable {
             };
             colButton.setCellFactory(cellFactory);
 
-            table.setItems(cartDB.getCartItems());
+            table.setItems(cartDB.getCartItems(username.getText()));
 
             Integer total = 0;
-            for(CartItems cart_item : cartDB.getCartItems())
+            for(CartItems cart_item : cartDB.getCartItems(username.getText()))
                 total += cart_item.getPrice();
 
             showTotalPrice.setText(total.toString());

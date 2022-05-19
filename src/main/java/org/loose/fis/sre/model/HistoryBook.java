@@ -9,14 +9,16 @@ public class HistoryBook {
     private Integer rented;
     private Integer price;
     private Integer period;
+    private String client;
 
-    public HistoryBook(String title, String author, Integer bought, Integer rented, Integer price, Integer period) {
+    public HistoryBook(String title, String author, Integer bought, Integer rented, Integer price, Integer period, String client) {
         this.title = title;
         this.author = author;
         this.bought = bought;
         this.rented = rented;
         this.price = price;
         this.period = period;
+        this.client = client;
     }
 
     public HistoryBook() {
@@ -71,16 +73,20 @@ public class HistoryBook {
         this.period = period;
     }
 
+    public String getClient() { return client; }
+
+    public void setClient(String client) { this.client = client; }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof HistoryBook)) return false;
         HistoryBook that = (HistoryBook) o;
-        return Objects.equals(title, that.title) && Objects.equals(author, that.author) && Objects.equals(bought, that.bought) && Objects.equals(rented, that.rented) && Objects.equals(price, that.price) && Objects.equals(period, that.period);
+        return Objects.equals(title, that.title) && Objects.equals(author, that.author) && Objects.equals(bought, that.bought) && Objects.equals(rented, that.rented) && Objects.equals(price, that.price) && Objects.equals(period, that.period) && Objects.equals(client, that.client);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(title, author, bought, rented, price, period);
+        return Objects.hash(title, author, bought, rented, price, period, client);
     }
 }

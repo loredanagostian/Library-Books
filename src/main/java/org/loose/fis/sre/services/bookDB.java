@@ -198,6 +198,6 @@ public class bookDB {
         preparedStatement.setString(1, title);
         preparedStatement.setString(2, author);
 
-        int i = preparedStatement.executeUpdate();
+        preparedStatement.executeUpdate();
     }
 }
