@@ -58,4 +58,29 @@ public class historyDB {
 
         preparedStatement.executeUpdate();
     }
+
+    public static ObservableList<HistoryBook> getHistoryItemsLibrarian () throws SQLException {
+        ObservableList<HistoryBook> list = FXCollections.observableArrayList();
+        String sql = "SELECT * FROM history_customer";
+        preparedStatement = dbConnection.initiateConnection().prepareStatement(sql);
+        ResultSet resultSet = preparedStatement.executeQuery();
+
+        while(resultSet.next()){
+            HistoryBook items = new HistoryBook();
+            items.setClient(resultSet.getString("username_client"));
+            items.setTitle(resultSet.getString("title"));
+            items.setAuthor(resultSet.getString("author"));
+            if(resultSet.getInt("bought") == 1)
+                items.setBorrowedSold("Sold");
+
+            if(resultSet.getInt("rented") == 1)
+                items.setBorrowedSold("Borrowed");
+
+            items.setPeriod(resultSet.getInt("period"));
+
+            list.add(items);
+        }
+
+        return list;
+    }
 }
