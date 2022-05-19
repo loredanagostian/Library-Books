@@ -35,7 +35,7 @@ public class LoginController {
         String pass = passwordPassField.getText();
 
         if (user.isEmpty()) {
-            showMessage.setText("Please type in a username!");
+            showMessage.setText("Please type your username!");
             return;
         }
 
