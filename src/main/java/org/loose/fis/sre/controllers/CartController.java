@@ -12,8 +12,6 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import org.loose.fis.sre.Main;
-import org.loose.fis.sre.exceptions.BookHas0Stock;
-import org.loose.fis.sre.exceptions.EmptyCart;
 import org.loose.fis.sre.model.CartItems;
 import org.loose.fis.sre.services.cartDB;
 import org.loose.fis.sre.services.stageOptimise;
@@ -60,10 +58,8 @@ public class CartController {
 
             table.setItems(null);
             showTotalPrice.setText("Your order has been \n finished successfully!");
-        } catch (BookHas0Stock | SQLException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
-        } catch (EmptyCart e) {
-            showTotalPrice.setText(e.getMessage());
         }
     }
 
@@ -126,8 +122,6 @@ public class CartController {
                                         showTotalPrice.setText(total.toString());
                                     } catch (SQLException e) {
                                         e.printStackTrace();
-                                    } catch (EmptyCart e) {
-                                        showTotalPrice.setText(e.getMessage());
                                     }
                                 });
 
@@ -149,8 +143,6 @@ public class CartController {
             showTotalPrice.setText(total.toString());
         } catch (SQLException e) {
             e.printStackTrace();
-        } catch (EmptyCart e) {
-            showTotalPrice.setText(e.getMessage());
         }
     }
 }

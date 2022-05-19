@@ -37,6 +37,10 @@ public class RentController {
     @FXML
     private Label showMessage;
 
+    private String description;
+    private Integer price;
+    private Integer stock;
+
     @FXML
     void backButton(ActionEvent actionEvent) throws IOException {
         Stage stage = new Stage();
@@ -49,7 +53,7 @@ public class RentController {
         }
 
         BookController secondController = fxmlLoader.getController();
-        secondController.populateWindow(username.getText(), showTitle.getText(), showAuthor.getText());
+        secondController.populateWindow(username.getText(), showTitle.getText(), showAuthor.getText(), description, price, stock);
 
         ((Node) (actionEvent.getSource())).getScene().getWindow().hide();
         stage.setTitle("Book");
@@ -104,9 +108,12 @@ public class RentController {
         }
     }
 
-    public void populateWindow(String user, String title, String author){
+    public void populateWindow(String user, String title, String author, String description, String price, String stock){
         username.setText(user);
         showTitle.setText(title);
         showAuthor.setText(author);
+        this.description = description;
+        this.price = Integer.valueOf(price);
+        this.stock = Integer.valueOf(stock);
     }
 }

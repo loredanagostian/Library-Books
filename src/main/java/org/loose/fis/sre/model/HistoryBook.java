@@ -5,17 +5,18 @@ import java.util.Objects;
 public class HistoryBook {
     private String title;
     private String author;
-    private Integer bought;
-    private Integer rented;
+    private String bought;
+    private String rented;
     private Integer price;
     private Integer period;
     private String client;
 
+
     public HistoryBook(String title, String author, Integer bought, Integer rented, Integer price, Integer period, String client) {
         this.title = title;
         this.author = author;
-        this.bought = bought;
-        this.rented = rented;
+        this.bought = String.valueOf(bought);
+        this.rented = String.valueOf(rented);
         this.price = price;
         this.period = period;
         this.client = client;
@@ -41,21 +42,13 @@ public class HistoryBook {
         this.author = author;
     }
 
-    public Integer getBought() {
-        return bought;
-    }
+    public String getBought() { return bought; }
 
-    public void setBought(Integer bought) {
-        this.bought = bought;
-    }
+    public void setBought(String bought) { this.bought = bought; }
 
-    public Integer getRented() {
-        return rented;
-    }
+    public String getRented() { return rented; }
 
-    public void setRented(Integer rented) {
-        this.rented = rented;
-    }
+    public void setRented(String rented) { this.rented = rented; }
 
     public Integer getPrice() {
         return price;

@@ -23,7 +23,7 @@
     </TableView>
     <Button fx:id="viewHistoryButton" layoutX="392.0" layoutY="317.0" mnemonicParsing="false" onAction="#viewHistoryButton" prefHeight="35.0" prefWidth="106.0" text="View History" />
     <Button fx:id="searchButton" layoutX="100.0" layoutY="84.0" mnemonicParsing="false" onAction="#searchButton" text="Search" />
-    <Label fx:id="showMessage" layoutX="181.0" layoutY="317.0" />
+    <Label fx:id="showMessage" layoutX="219.0" layoutY="309.0" prefHeight="17.0" prefWidth="165.0" />
     <Button fx:id="logoutButton" layoutX="523.0" layoutY="23.0" mnemonicParsing="false" onAction="#logoutButton" text="Log out" />
    <Button fx:id="viewCartButton" layoutX="99.0" layoutY="317.0" mnemonicParsing="false" onAction="#viewCartButton" prefHeight="35.0" prefWidth="106.0" text="View Cart" />
    <Label fx:id="usernameLabel" layoutX="21.0" layoutY="15.0" prefHeight="17.0" prefWidth="78.0" />
