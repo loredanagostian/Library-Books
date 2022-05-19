@@ -46,7 +46,7 @@ public class HistoryController {
         username.setText(user);
     }
 
-    public void initialize() {
+    public void initialize2() {
         try {
             table.setItems(null);
             colTitle.setCellValueFactory(new PropertyValueFactory<>("title"));
@@ -56,7 +56,6 @@ public class HistoryController {
             colRent.setCellValueFactory(new PropertyValueFactory<>("rented"));
             colPeriod.setCellValueFactory(new PropertyValueFactory<>("period"));
 
-            username.setText("iuliana");
             table.setItems(historyDB.getHistoryItems(username.getText()));
         } catch (SQLException e) {
             e.printStackTrace();

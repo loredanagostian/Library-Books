@@ -23,7 +23,7 @@ import java.net.URL;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 
-public class CartController implements Initializable {
+public class CartController {
     @FXML
     public Button backButton;
 
@@ -89,15 +89,13 @@ public class CartController implements Initializable {
     }
 
     @FXML
-    public void initialize(URL location, ResourceBundle resources) {
+    public void initialize2() {
         try {
             table.setItems(null);
             colTitle.setCellValueFactory(new PropertyValueFactory<>("title"));
             colAuthor.setCellValueFactory(new PropertyValueFactory<>("author"));
             colPrice.setCellValueFactory(new PropertyValueFactory<>("price"));
             colButton.setCellValueFactory(new PropertyValueFactory<>(""));
-
-            username.setText("iuliana");
 
             Callback<TableColumn<CartItems, String>, TableCell<CartItems, String>> cellFactory
                     = new Callback<>() {

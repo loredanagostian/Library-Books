@@ -104,6 +104,7 @@ public class BookController implements Initializable {
 
             CartController secondController = fxmlLoader.getController();
             secondController.populateWindow(username.getText());
+            secondController.initialize2();
 
             ((Node) (actionEvent.getSource())).getScene().getWindow().hide();
             stage.setTitle("Cart Items");
