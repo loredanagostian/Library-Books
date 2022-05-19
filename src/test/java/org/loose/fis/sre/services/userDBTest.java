@@ -6,7 +6,9 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.loose.fis.sre.dbConnectionTest;
+import org.loose.fis.sre.exceptions.InvalidPassword;
 import org.loose.fis.sre.exceptions.UsernameAlreadyExistsException;
+import org.loose.fis.sre.exceptions.UsernameNotFound;
 import org.loose.fis.sre.model.User;
 import org.testfx.api.FxRobot;
 import org.testfx.framework.junit5.ApplicationExtension;
@@ -55,6 +57,28 @@ public class userDBTest {
                 {
                     insertUserTest();
                     insertUserTest();
+                }
+        );
+    }
+
+    @Test
+    @DisplayName("Login: Username not found")
+    void loginUserTest1() {
+        assertThrows(UsernameNotFound.class, () ->
+                {
+                    insertUserTest();
+                    userDB.loginUser("altUsername", PASSWORD, "users_test");
+                }
+        );
+    }
+
+    @Test
+    @DisplayName("Login: Password incorrect")
+    void loginUserTest2() {
+        assertThrows(InvalidPassword.class, () ->
+                {
+                    insertUserTest();
+                    userDB.loginUser(USERNAME, "altaParola", "users_test");
                 }
         );
     }
