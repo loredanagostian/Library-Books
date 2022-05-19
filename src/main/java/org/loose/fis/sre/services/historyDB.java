@@ -23,8 +23,17 @@ public class historyDB {
             items.setTitle(resultSet.getString("title"));
             items.setAuthor(resultSet.getString("author"));
             items.setPrice(resultSet.getInt("price"));
-            items.setBought(resultSet.getInt("bought"));
-            items.setRented(resultSet.getInt("rented"));
+
+            if(resultSet.getInt("bought") == 1)
+                items.setBought("Yes");
+            else
+                items.setBought("No");
+
+            if(resultSet.getInt("rented") == 1)
+                items.setRented("Yes");
+            else
+                items.setRented("No");
+
             items.setPeriod(resultSet.getInt("period"));
             items.setClient(resultSet.getString("username_client"));
 

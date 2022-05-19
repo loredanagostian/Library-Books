@@ -104,7 +104,23 @@ public class CustomerController implements Initializable {
 
                                 btn.setOnAction(actionEvent -> {
                                     try {
-                                        stageOptimise.switchToStageWithPopulateTitleAuthor(usernameLabel.getText(), "book.fxml", "Book", book.getTitle(), book.getAuthor(), true, "book", actionEvent);
+                                        Stage stage = new Stage();
+                                        FXMLLoader fxmlLoader = new FXMLLoader(stageOptimise.class.getClassLoader().getResource("book.fxml"));
+                                        Pane root = fxmlLoader.load();
+
+                                        BookController secondController = fxmlLoader.getController();
+                                        secondController.populateWindow(usernameLabel.getText(), book.getTitle(), book.getAuthor(), book.getDescription(), book.getPrice(), book.getStock());
+
+                                        if(bookDB.searchBook(book.getTitle(), book.getAuthor()).getForBuy() == 0 || bookDB.searchBook(book.getTitle(), book.getAuthor()).getStock() == 0)
+                                            secondController.buyButton.setVisible(false);
+
+                                        if(bookDB.searchBook(book.getTitle(), book.getAuthor()).getForRent() == 0 || bookDB.searchBook(book.getTitle(), book.getAuthor()).getAvailability().equals("NOT available"))
+                                            secondController.rentButton.setVisible(false);
+
+                                        ((Node) (actionEvent.getSource())).getScene().getWindow().hide();
+                                        stage.setTitle("Book");
+                                        stage.setScene(new Scene(root));
+                                        stage.show();
                                     } catch (IOException | SQLException | NoBookFound e) {
                                         e.printStackTrace();
                                     }

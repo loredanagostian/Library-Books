@@ -3,9 +3,7 @@ package org.loose.fis.sre.services;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import org.loose.fis.sre.controllers.dbConnection;
-import org.loose.fis.sre.exceptions.BookHas0Stock;
 import org.loose.fis.sre.exceptions.CartItemAlreadyExists;
-import org.loose.fis.sre.exceptions.EmptyCart;
 import org.loose.fis.sre.model.CartItems;
 
 import java.sql.PreparedStatement;
@@ -16,7 +14,7 @@ import java.util.UUID;
 public class cartDB {
     static PreparedStatement preparedStatement = null;
 
-    public static void addCartItem(String title, String author, Integer price, String user) throws SQLException, CartItemAlreadyExists, BookHas0Stock {
+    public static void addCartItem(String title, String author, Integer price, String user) throws SQLException, CartItemAlreadyExists {
         String sql = "SELECT * FROM cart_items WHERE title = ? AND author = ? AND username_client = ?";
         preparedStatement = dbConnection.initiateConnection().prepareStatement(sql);
 
@@ -26,7 +24,7 @@ public class cartDB {
         ResultSet resultSet = preparedStatement.executeQuery();
 
         if (resultSet.next())
-            throw new CartItemAlreadyExists(title);
+            throw new CartItemAlreadyExists(title, author);
 
         sql = "INSERT INTO cart_items (idcart, title, author, price, username_client) VALUES (?, ?, ?, ?, ?)";
         preparedStatement = dbConnection.initiateConnection().prepareStatement(sql);
@@ -40,7 +38,7 @@ public class cartDB {
         preparedStatement.executeUpdate();
     }
 
-    public static ObservableList<CartItems> getCartItems (String user) throws SQLException, EmptyCart {
+    public static ObservableList<CartItems> getCartItems (String user) throws SQLException {
         ObservableList<CartItems> list = FXCollections.observableArrayList();
         String sql = "SELECT * FROM cart_items WHERE username_client = ?";
         preparedStatement = dbConnection.initiateConnection().prepareStatement(sql);
@@ -57,9 +55,6 @@ public class cartDB {
             list.add(items);
         }
 
-        if (list.isEmpty())
-            throw new EmptyCart();
-
         return list;
     }
 
@@ -74,7 +69,7 @@ public class cartDB {
         preparedStatement.executeUpdate();
     }
 
-    public static void buyItem (String user, String titleBook, String authorBook, Integer priceBook) throws SQLException, BookHas0Stock {
+    public static void buyItem (String user, String titleBook, String authorBook, Integer priceBook) throws SQLException {
         String sql = "SELECT * FROM books WHERE title = ? AND author = ?";
         preparedStatement = dbConnection.initiateConnection().prepareStatement(sql);
         preparedStatement.setString(1, titleBook);
@@ -83,7 +78,6 @@ public class cartDB {
         ResultSet resultSet = preparedStatement.executeQuery();
 
         if(resultSet.next())
-            if(resultSet.getInt("stock") > 0){
                 sql = "INSERT INTO history_customer (id, title, author, bought, rented, price, period, username_client) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
                 preparedStatement = dbConnection.initiateConnection().prepareStatement(sql);
 
@@ -110,8 +104,6 @@ public class cartDB {
                 preparedStatement.executeUpdate();
 
                 deleteItem(titleBook, authorBook, user);
-            }
-            else
-                throw new BookHas0Stock(titleBook, authorBook);
+
     }
 }
