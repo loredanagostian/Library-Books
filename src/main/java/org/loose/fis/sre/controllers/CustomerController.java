@@ -63,6 +63,7 @@ public class CustomerController implements Initializable {
 
         HistoryController secondController = fxmlLoader.getController();
         secondController.populateWindow(usernameLabel.getText());
+        secondController.initialize2();
 
         ((Node) (actionEvent.getSource())).getScene().getWindow().hide();
         stage.setTitle("History");
@@ -168,6 +169,7 @@ public class CustomerController implements Initializable {
 
         CartController secondController = fxmlLoader.getController();
         secondController.populateWindow(usernameLabel.getText());
+        secondController.initialize2();
 
         ((Node) (actionEvent.getSource())).getScene().getWindow().hide();
         stage.setTitle("Cart Items");
