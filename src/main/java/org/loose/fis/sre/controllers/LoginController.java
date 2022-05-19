@@ -45,7 +45,7 @@ public class LoginController {
         }
 
         try {
-            String role = userDB.loginUser(user, pass);
+            String role = userDB.loginUser(user, pass, "users");
             showMessage.setText("Login successfully!");
 
             if (role.equals("Customer")) {
