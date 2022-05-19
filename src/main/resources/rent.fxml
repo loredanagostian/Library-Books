@@ -21,4 +21,5 @@
     <Button fx:id="backButton" layoutX="209.0" layoutY="312.0" mnemonicParsing="false" onAction="#backButton" text="Back" />
     <Button fx:id="requestButton" layoutX="349.0" layoutY="312.0" mnemonicParsing="false" onAction="#requestButton" text="Request" />
     <Label fx:id="showMessage" layoutX="262.0" layoutY="282.0" />
+   <Label fx:id="username" layoutX="13.0" layoutY="14.0" prefHeight="17.0" prefWidth="90.0" />
 </AnchorPane>

@@ -176,8 +176,8 @@ public class LibrarianController implements Initializable {
     }
 
     @FXML
-    void viewRequests(ActionEvent event) {
-
+    public void viewRequests(javafx.event.ActionEvent actionEvent) throws IOException {
+        stageOptimise.switchToStage("requests.fxml", "View Customers Requests", actionEvent);
     }
 
 }

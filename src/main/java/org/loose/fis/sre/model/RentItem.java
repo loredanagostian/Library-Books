@@ -1,17 +1,30 @@
 package org.loose.fis.sre.model;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Objects;
 
 public class RentItem {
+
+    private String client;
     private String title;
     private String author;
     private Integer period;
 
-    public RentItem(String title, String author, Integer period) {
+    public RentItem(String client, String title, String author, Integer period) {
+        this.client = client;
         this.title = title;
         this.author = author;
         this.period = period;
     }
+
+    public RentItem() {
+
+    }
+
+    public String getClient() { return client; }
+
+    public void setClient(String client) { this.client = client; }
 
     public String getTitle() {
         return title;
@@ -42,11 +55,20 @@ public class RentItem {
         if (this == o) return true;
         if (!(o instanceof RentItem)) return false;
         RentItem rentItem = (RentItem) o;
-        return Objects.equals(title, rentItem.title) && Objects.equals(author, rentItem.author) && Objects.equals(period, rentItem.period);
+        return Objects.equals(client, rentItem.client) && Objects.equals(title, rentItem.title) && Objects.equals(author, rentItem.author) && Objects.equals(period, rentItem.period);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(title, author, period);
+        return Objects.hash(client, title, author, period);
+    }
+
+    public static void setRentBook (RentItem book, ResultSet resultSet) throws SQLException {
+
+        book.setClient(resultSet.getString("username_client"));
+        book.setTitle(resultSet.getString("title"));
+        book.setAuthor(resultSet.getString("author"));
+        book.setPeriod (resultSet.getInt("period_of_renting"));
+
     }
 }
