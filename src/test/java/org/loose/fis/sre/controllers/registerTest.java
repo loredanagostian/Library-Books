@@ -95,7 +95,7 @@ public class registerTest {
         robot.write("");
         robot.clickOn("#passwordField");
         robot.write("");
-        robot.clickOn("#roleBox").clickOn("Library");
+        robot.clickOn("#roleBox").clickOn("Librarian");
         robot.clickOn("#nameField");
         robot.write(NAME);
         robot.clickOn("#emailField");

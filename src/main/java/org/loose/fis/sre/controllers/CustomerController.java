@@ -111,10 +111,10 @@ public class CustomerController implements Initializable {
                                         BookController secondController = fxmlLoader.getController();
                                         secondController.populateWindow(usernameLabel.getText(), book.getTitle(), book.getAuthor(), book.getDescription(), book.getPrice(), book.getStock());
 
-                                        if(bookDB.searchBook(book.getTitle(), book.getAuthor()).getForBuy() == 0 || bookDB.searchBook(book.getTitle(), book.getAuthor()).getStock() == 0)
+                                        if(bookDB.searchBook(book.getTitle(), book.getAuthor(), "books").getForBuy() == 0 || bookDB.searchBook(book.getTitle(), book.getAuthor(), "books").getStock() == 0)
                                             secondController.buyButton.setVisible(false);
 
-                                        if(bookDB.searchBook(book.getTitle(), book.getAuthor()).getForRent() == 0 || bookDB.searchBook(book.getTitle(), book.getAuthor()).getAvailability().equals("NOT available"))
+                                        if(bookDB.searchBook(book.getTitle(), book.getAuthor(), "books").getForRent() == 0 || bookDB.searchBook(book.getTitle(), book.getAuthor(), "books").getAvailability().equals("NOT available"))
                                             secondController.rentButton.setVisible(false);
 
                                         ((Node) (actionEvent.getSource())).getScene().getWindow().hide();
@@ -135,7 +135,7 @@ public class CustomerController implements Initializable {
             };
             colButton.setCellFactory(cellFactory);
 
-            table.setItems(bookDB.getBooks());
+            table.setItems(bookDB.getBooks("books"));
         } catch (SQLException e) {
             e.printStackTrace();
         }

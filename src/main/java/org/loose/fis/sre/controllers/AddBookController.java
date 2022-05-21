@@ -86,7 +86,7 @@ public class AddBookController {
         try {
             if (price.isEmpty()) price = "0";
             if (stock.isEmpty()) stock = "0";
-            bookDB.insertBook(title, author, description, price, rentBuy, stock, availability);
+            bookDB.insertBook(title, author, description, price, rentBuy, stock, availability, "books");
 
             Alert alert = new Alert(Alert.AlertType.NONE);
             alert.setAlertType(Alert.AlertType.INFORMATION);
@@ -99,7 +99,13 @@ public class AddBookController {
                     stageOptimise.switchToStage("librarian.fxml", "Librarian View", actionEvent);
 
         }catch (BookAlreadyExistsException e) {
-            showMessage.setText(e.getMessage());
+//            showMessage.setText(e.getMessage());
+
+            Alert alert = new Alert(Alert.AlertType.NONE);
+            alert.setAlertType(Alert.AlertType.ERROR);
+            alert.setHeaderText("Error adding book");
+            alert.setContentText(e.getMessage());
+            alert.show();
         }catch (SQLException | IOException e) {
             e.printStackTrace();
         }

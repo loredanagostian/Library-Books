@@ -16,9 +16,9 @@ import static org.loose.fis.sre.model.Books.setBook;
 public class bookDB {
     static PreparedStatement preparedStatement = null;
 
-    public static ObservableList<Books> getBooks() throws SQLException {
+    public static ObservableList<Books> getBooks(String tableName) throws SQLException {
         ObservableList<Books> list = FXCollections.observableArrayList();
-        String sql = "SELECT * FROM books";
+        String sql = "SELECT * FROM " + tableName;
         preparedStatement = dbConnection.initiateConnection().prepareStatement(sql);
         ResultSet resultSet = preparedStatement.executeQuery();
 
@@ -51,8 +51,8 @@ public class bookDB {
     }
 
 
-    public static Books searchBook (String title, String author) throws SQLException, NoBookFound {
-        String sql = "SELECT * FROM books WHERE title = ?";
+    public static Books searchBook (String title, String author, String tableName) throws SQLException, NoBookFound {
+        String sql = "SELECT * FROM " + tableName + " WHERE title = ?";
         preparedStatement = dbConnection.initiateConnection().prepareStatement(sql);
         preparedStatement.setString(1, title);
         ResultSet resultSet = preparedStatement.executeQuery();
@@ -60,7 +60,7 @@ public class bookDB {
         if (!resultSet.next())
             throw new NoBookFound(title);
 
-        sql = "SELECT * FROM books WHERE title = ? AND author = ?";
+        sql = "SELECT * FROM " + tableName + " WHERE title = ? AND author = ?";
 
         preparedStatement = dbConnection.initiateConnection().prepareStatement(sql);
         preparedStatement.setString(1, title);
@@ -154,8 +154,8 @@ public class bookDB {
         int i =  preparedStatement.executeUpdate();
     }
 
-    public static void insertBook(String title, String author, String description, String price, String rentBuy, String stock, String availability) throws BookAlreadyExistsException, SQLException {
-        String sql = "SELECT * FROM books WHERE title = ? AND author = ?";
+    public static void insertBook(String title, String author, String description, String price, String rentBuy, String stock, String availability, String tableName) throws BookAlreadyExistsException, SQLException {
+        String sql = "SELECT * FROM " + tableName + " WHERE title = ? AND author = ?";
         preparedStatement = dbConnection.initiateConnection().prepareStatement(sql);
 
         preparedStatement.setString(1, title);
@@ -165,7 +165,7 @@ public class bookDB {
         if (resultSet.next())
             throw new BookAlreadyExistsException(title, author);
 
-        sql = "INSERT INTO books (id, title, author, for_buy, stock, for_rent, availability, description, price) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        sql = "INSERT INTO " + tableName + " (id, title, author, for_buy, stock, for_rent, availability, description, price) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
         preparedStatement = dbConnection.initiateConnection().prepareStatement(sql);
 
         int forRent = 0, forBuy = 0;

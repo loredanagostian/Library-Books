@@ -113,7 +113,7 @@ public class LibrarianController implements Initializable {
                 }
             };
             colEdit.setCellFactory(cellFactory);
-            table.setItems(bookDB.getBooks());
+            table.setItems(bookDB.getBooks("books"));
 
 
         Callback<TableColumn<Books, String>, TableCell<Books, String>> cellFactory2 = new Callback<>() {
@@ -143,7 +143,7 @@ public class LibrarianController implements Initializable {
                                     alert.setContentText("Book successfully deleted!");
                                     alert.show();
 
-                                    table.setItems(bookDB.getBooks());
+                                    table.setItems(bookDB.getBooks("books"));
 
                                 }catch (SQLException e) {
                                     e.printStackTrace();
@@ -157,7 +157,7 @@ public class LibrarianController implements Initializable {
             }
         };
         colDelete.setCellFactory(cellFactory2);
-        table.setItems(bookDB.getBooks());
+        table.setItems(bookDB.getBooks("books"));
 
     } catch (SQLException e) {
         e.printStackTrace();

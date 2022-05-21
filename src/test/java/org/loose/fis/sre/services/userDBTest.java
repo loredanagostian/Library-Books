@@ -10,7 +10,6 @@ import org.loose.fis.sre.exceptions.InvalidPassword;
 import org.loose.fis.sre.exceptions.UsernameAlreadyExistsException;
 import org.loose.fis.sre.exceptions.UsernameNotFound;
 import org.loose.fis.sre.model.User;
-import org.testfx.api.FxRobot;
 import org.testfx.framework.junit5.ApplicationExtension;
 
 import java.sql.Connection;
@@ -56,7 +55,7 @@ public class userDBTest {
         assertThrows(UsernameAlreadyExistsException.class, () ->
                 {
                     insertUserTest();
-                    insertUserTest();
+                    userDB.insertUser(USERNAME, PASSWORD, ROLE, NAME, EMAIL, "users_test");
                 }
         );
     }
