@@ -20,7 +20,7 @@ public class Main extends Application {
         //userDB.initDatabase();
         Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getClassLoader().getResource("login.fxml")));
         primaryStage.setTitle("Login Page");
-        primaryStage.setScene(new Scene(root, 650, 450));
+        primaryStage.setScene(new Scene(root));
         primaryStage.show();
     }
 

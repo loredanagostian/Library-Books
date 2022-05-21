@@ -6,16 +6,7 @@ import org.loose.fis.sre.controllers.dbConnection;
 import org.loose.fis.sre.exceptions.InvalidPassword;
 import org.loose.fis.sre.exceptions.UsernameAlreadyExistsException;
 import org.loose.fis.sre.exceptions.UsernameNotFound;
-<<<<<<< Updated upstream
-import org.loose.fis.sre.model.HistoryBook;
 import org.loose.fis.sre.model.User;
-=======
-<<<<<<< Updated upstream
-=======
-import org.loose.fis.sre.model.User;
->>>>>>> Stashed changes
->>>>>>> Stashed changes
-
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -63,7 +54,7 @@ public class userDB {
 
         preparedStatement = dbConnection.initiateConnection().prepareStatement(sql);
         preparedStatement.setString(1, username);
-        preparedStatement.setString(2, password);
+        preparedStatement.setString(2, encodePassword(username, password));
         resultSet = preparedStatement.executeQuery();
 
         if (!resultSet.next())
