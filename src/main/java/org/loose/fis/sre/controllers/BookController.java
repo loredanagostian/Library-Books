@@ -105,8 +105,8 @@ public class BookController implements Initializable {
         String authorRequested = authorField.getText();
 
         try{
-            Books book = bookDB.searchBook(titleRequested, authorRequested);
-            cartDB.addCartItem(book.getTitle(), book.getAuthor(), book.getPrice(), username.getText());
+            Books book = bookDB.searchBook(titleRequested, authorRequested, "books");
+            cartDB.addCartItem(book.getTitle(), book.getAuthor(), book.getPrice(), username.getText(), "cart_items");
 
             Stage stage = new Stage();
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getClassLoader().getResource("cart.fxml"));

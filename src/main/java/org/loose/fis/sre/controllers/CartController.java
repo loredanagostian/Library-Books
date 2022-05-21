@@ -53,7 +53,7 @@ public class CartController {
     @FXML
     public void buyButton() {
         try {
-            for(CartItems item : cartDB.getCartItems(username.getText()))
+            for(CartItems item : cartDB.getCartItems(username.getText(), "cart_items"))
                 cartDB.buyItem(username.getText(), item.getTitle(), item.getAuthor(), item.getPrice());
 
             table.setItems(null);
@@ -113,10 +113,10 @@ public class CartController {
                                 btn.setOnAction(actionEvent -> {
                                     try {
                                         cartDB.deleteItem(itemDeleted.getTitle(), itemDeleted.getAuthor(), username.getText());
-                                        table.setItems(cartDB.getCartItems(username.getText()));
+                                        table.setItems(cartDB.getCartItems(username.getText(), "cart_items"));
 
                                         Integer total = 0;
-                                        for(CartItems cart_item : cartDB.getCartItems(username.getText()))
+                                        for(CartItems cart_item : cartDB.getCartItems(username.getText(), "cart_items"))
                                             total += cart_item.getPrice();
 
                                         showTotalPrice.setText(total.toString());
@@ -134,10 +134,10 @@ public class CartController {
             };
             colButton.setCellFactory(cellFactory);
 
-            table.setItems(cartDB.getCartItems(username.getText()));
+            table.setItems(cartDB.getCartItems(username.getText(), "cart_items"));
 
             Integer total = 0;
-            for(CartItems cart_item : cartDB.getCartItems(username.getText()))
+            for(CartItems cart_item : cartDB.getCartItems(username.getText(), "cart_items"))
                 total += cart_item.getPrice();
 
             showTotalPrice.setText(total.toString());

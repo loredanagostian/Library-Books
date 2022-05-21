@@ -14,8 +14,8 @@ import java.util.UUID;
 public class cartDB {
     static PreparedStatement preparedStatement = null;
 
-    public static void addCartItem(String title, String author, Integer price, String user) throws SQLException, CartItemAlreadyExists {
-        String sql = "SELECT * FROM cart_items WHERE title = ? AND author = ? AND username_client = ?";
+    public static void addCartItem(String title, String author, Integer price, String user, String tableName) throws SQLException, CartItemAlreadyExists {
+        String sql = "SELECT * FROM " + tableName + " WHERE title = ? AND author = ? AND username_client = ?";
         preparedStatement = dbConnection.initiateConnection().prepareStatement(sql);
 
         preparedStatement.setString(1, title);
@@ -26,7 +26,7 @@ public class cartDB {
         if (resultSet.next())
             throw new CartItemAlreadyExists(title, author);
 
-        sql = "INSERT INTO cart_items (idcart, title, author, price, username_client) VALUES (?, ?, ?, ?, ?)";
+        sql = "INSERT INTO " + tableName + " (idcart, title, author, price, username_client) VALUES (?, ?, ?, ?, ?)";
         preparedStatement = dbConnection.initiateConnection().prepareStatement(sql);
 
         preparedStatement.setString(1, UUID.randomUUID().toString());
@@ -38,9 +38,9 @@ public class cartDB {
         preparedStatement.executeUpdate();
     }
 
-    public static ObservableList<CartItems> getCartItems (String user) throws SQLException {
+    public static ObservableList<CartItems> getCartItems (String user, String tableName) throws SQLException {
         ObservableList<CartItems> list = FXCollections.observableArrayList();
-        String sql = "SELECT * FROM cart_items WHERE username_client = ?";
+        String sql = "SELECT * FROM " + tableName + " WHERE username_client = ?";
         preparedStatement = dbConnection.initiateConnection().prepareStatement(sql);
         preparedStatement.setString(1, user);
         ResultSet resultSet = preparedStatement.executeQuery();
