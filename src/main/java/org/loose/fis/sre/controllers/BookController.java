@@ -8,6 +8,7 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
@@ -126,22 +127,14 @@ public class BookController implements Initializable {
             assert root != null;
             stage.setScene(new Scene(root));
             stage.show();
-//            stageOptimise.switchToStageWithPopulateTitleAuthor(
-//                    username.getText(),
-//                    "cart.fxml",
-//                    "Cart Items",
-//                    titleField.getText(),
-//                    authorField.getText(),
-//                    false,
-//                    "cart",
-//                    actionEvent
-//            );
 
         } catch (CartItemAlreadyExists e) {
             Alert alert = new Alert(Alert.AlertType.NONE);
             alert.setAlertType(Alert.AlertType.ERROR);
             alert.setHeaderText("Error adding item to cart");
             alert.setContentText("A book with the title " + titleField.getText() + " and author " + authorField.getText() + " already exists in the cart!");
+            Button errorButton = (Button) alert.getDialogPane().lookupButton(ButtonType.OK);
+            errorButton.setId("addItemError");
             alert.show();
         }
     }

@@ -1,10 +1,15 @@
 package org.loose.fis.sre.controllers;
 
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.Pane;
+import javafx.stage.Stage;
 import org.loose.fis.sre.exceptions.UsernameAlreadyExistsException;
 import org.loose.fis.sre.services.stageOptimise;
 import org.loose.fis.sre.services.userDB;
@@ -47,8 +52,25 @@ public class RegistrationController {
             userDB.insertUser(user, pass, role, name, email, "users");
             showMessage.setText("Account created successfully!");
 
-            if(role.equals("Customer"))
-                stageOptimise.switchToStage("customer.fxml", "Customer View", actionEvent);
+            if(role.equals("Customer")) {
+                Stage stage = new Stage();
+                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getClassLoader().getResource("customer.fxml"));
+                Pane root = null;
+                try {
+                    root = fxmlLoader.load();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+                CustomerController secondController = fxmlLoader.getController();
+                secondController.populateWindow(user);
+
+                ((Node) (actionEvent.getSource())).getScene().getWindow().hide();
+                stage.setTitle("Customer View");
+                assert root != null;
+                stage.setScene(new Scene(root));
+                stage.show();
+            }
             else
                 stageOptimise.switchToStage("librarian.fxml", "Library", actionEvent);
         } catch (UsernameAlreadyExistsException | SQLException | IOException e) {

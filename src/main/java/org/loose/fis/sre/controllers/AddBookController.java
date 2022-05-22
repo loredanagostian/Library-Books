@@ -70,12 +70,12 @@ public class AddBookController {
 
         if (rentBuy.equals("Rent")) {
             if (title.isEmpty() || author.isEmpty() || description.isEmpty() || availability.equals("")){
-                showMessage.setText("You must fill in all the required details!");
+                showMessage.setText("You must fill in all the required details for rent!");
                 return;
             }}
         else if (rentBuy.equals("Buy")) {
             if (title.isEmpty() || author.isEmpty() || description.isEmpty() || price.isEmpty() || stock.isEmpty()){
-                showMessage.setText("You must fill in all the required details!");
+                showMessage.setText("You must fill in all the required details for buy!");
                 return;
             }}
         else {if (title.isEmpty() || author.isEmpty() || description.isEmpty() || rentBuy.equals("") || stock.isEmpty() || price.isEmpty() || availability.equals("")){
@@ -105,7 +105,10 @@ public class AddBookController {
             alert.setAlertType(Alert.AlertType.ERROR);
             alert.setHeaderText("Error adding book");
             alert.setContentText(e.getMessage());
-            alert.show();
+            Button errorButton = (Button) alert.getDialogPane().lookupButton(ButtonType.OK);
+            errorButton.setId("addBookError");
+            alert.showAndWait();
+
         }catch (SQLException | IOException e) {
             e.printStackTrace();
         }

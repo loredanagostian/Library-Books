@@ -89,7 +89,7 @@ public class CustomerController implements Initializable {
                 @Override
                 public TableCell<Books, String> call(TableColumn<Books, String> param) {
                     return new TableCell<>() {
-                        final Button btn = new Button();
+                        final Hyperlink btn = new Hyperlink();
 
                         @Override
                         public void updateItem(String item, boolean empty) {
@@ -100,27 +100,16 @@ public class CustomerController implements Initializable {
                                 setText(null);
                             } else {
                                 Books book = getTableView().getItems().get(getIndex());
+
                                 btn.setText(book.getTitle());
 
                                 btn.setOnAction(actionEvent -> {
                                     try {
-                                        Stage stage = new Stage();
-                                        FXMLLoader fxmlLoader = new FXMLLoader(stageOptimise.class.getClassLoader().getResource("book.fxml"));
-                                        Pane root = fxmlLoader.load();
 
-                                        BookController secondController = fxmlLoader.getController();
-                                        secondController.populateWindow(usernameLabel.getText(), book.getTitle(), book.getAuthor(), book.getDescription(), book.getPrice(), book.getStock());
+                                        stageOptimise.switchToStageWithPopulateBook(usernameLabel.getText(), "book.fxml", "Book",
+                                                book.getTitle(), book.getAuthor(), book.getDescription(), book.getPrice(), book.getStock(), actionEvent,
+                                                "books");
 
-                                        if(bookDB.searchBook(book.getTitle(), book.getAuthor(), "books").getForBuy() == 0 || bookDB.searchBook(book.getTitle(), book.getAuthor(), "books").getStock() == 0)
-                                            secondController.buyButton.setVisible(false);
-
-                                        if(bookDB.searchBook(book.getTitle(), book.getAuthor(), "books").getForRent() == 0 || bookDB.searchBook(book.getTitle(), book.getAuthor(), "books").getAvailability().equals("NOT available"))
-                                            secondController.rentButton.setVisible(false);
-
-                                        ((Node) (actionEvent.getSource())).getScene().getWindow().hide();
-                                        stage.setTitle("Book");
-                                        stage.setScene(new Scene(root));
-                                        stage.show();
                                     } catch (IOException | SQLException | NoBookFound e) {
                                         e.printStackTrace();
                                     }
@@ -151,17 +140,12 @@ public class CustomerController implements Initializable {
         }
 
         try{
-            Books book = bookDB.getSearchedBooks(toBeSearched).get(0);
-            stageOptimise.switchToStageWithPopulateTitleAuthor(
-                    usernameLabel.getText(),
-                    "book.fxml",
-                    "Book",
-                    book.getTitle(),
-                    book.getAuthor(),
-                    true,
-                    "book",
-                    actionEvent
-            );
+            Books book = bookDB.getSearchedBooks(toBeSearched, "books").get(0);
+
+            stageOptimise.switchToStageWithPopulateBook(usernameLabel.getText(), "book.fxml", "Book",
+                    book.getTitle(), book.getAuthor(), book.getDescription(), book.getPrice(), book.getStock(), actionEvent,
+                    "books");
+
         } catch (SQLException | NoBookFound e) {
             showMessage.setText(e.getMessage());
         } catch (IOException e) {

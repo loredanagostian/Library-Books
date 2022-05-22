@@ -26,23 +26,34 @@ public class stageOptimise {
         stage.show();
     }
 
-    public static void switchToStageWithPopulateTitleAuthor(String user, String stageName, String stageTitle, String title, String author, Boolean needButtons, String controller, javafx.event.ActionEvent actionEvent) throws IOException, SQLException, NoBookFound {
+    public static void switchToStageWithPopulateBook(String user, String stageName, String stageTitle, String title, String author, String description,
+                                                    Integer price, Integer stock, javafx.event.ActionEvent actionEvent, String tableName) throws IOException, SQLException, NoBookFound {
+
         Stage stage = new Stage();
         FXMLLoader fxmlLoader = new FXMLLoader(stageOptimise.class.getClassLoader().getResource("" + stageName));
         Pane root = fxmlLoader.load();
 
-//        if(controller.equals("book")){
-//            BookController secondController = fxmlLoader.getController();
-//            secondController.populateWindow(user, title, author);
-//
-//            if(needButtons){
-//                if(bookDB.searchBook(title, author).getForBuy() == 0 || bookDB.searchBook(title, author).getStock() == 0)
-//                    secondController.buyButton.setVisible(false);
-//
-//                if(bookDB.searchBook(title, author).getForRent() == 0 || bookDB.searchBook(title, author).getAvailability().equals("NOT available"))
-//                    secondController.rentButton.setVisible(false);
-//            }
-//        }
+        BookController secondController = fxmlLoader.getController();
+        secondController.populateWindow(user, title, author, description, price, stock);
+
+        if(bookDB.searchBook(title, author, tableName).getForBuy() == 0 || bookDB.searchBook(title, author, tableName).getStock() == 0)
+            secondController.buyButton.setVisible(false);
+
+        if(bookDB.searchBook(title, author, tableName).getForRent() == 0 || bookDB.searchBook(title, author, tableName).getAvailability().equals("NOT available"))
+            secondController.rentButton.setVisible(false);
+
+
+        ((Node) (actionEvent.getSource())).getScene().getWindow().hide();
+        stage.setTitle(stageTitle);
+        stage.setScene(new Scene(root));
+        stage.show();
+
+    }
+
+    public static void switchToStageWithPopulateTitleAuthor(String user, String stageName, String stageTitle, String title, String author, Boolean needButtons, String controller, javafx.event.ActionEvent actionEvent) throws IOException, SQLException, NoBookFound {
+        Stage stage = new Stage();
+        FXMLLoader fxmlLoader = new FXMLLoader(stageOptimise.class.getClassLoader().getResource("" + stageName));
+        Pane root = fxmlLoader.load();
 
         if(controller.equals("edit")){
             EditBookController secondController = fxmlLoader.getController();

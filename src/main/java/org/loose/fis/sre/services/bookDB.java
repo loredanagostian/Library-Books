@@ -31,9 +31,9 @@ public class bookDB {
         return list;
     }
 
-    public static ObservableList<Books> getSearchedBooks(String searched) throws SQLException, NoBookFound {
+    public static ObservableList<Books> getSearchedBooks(String searched, String tableName) throws SQLException, NoBookFound {
         ObservableList<Books> list = FXCollections.observableArrayList();
-        String sql = "SELECT * FROM books WHERE books.title LIKE ? ";
+        String sql = "SELECT * FROM " + tableName + " WHERE title LIKE ? ";
         preparedStatement = dbConnection.initiateConnection().prepareStatement(sql);
         preparedStatement.setString(1, "%" + searched + "%");
         ResultSet resultSet = preparedStatement.executeQuery();

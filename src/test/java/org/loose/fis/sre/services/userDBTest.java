@@ -17,6 +17,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.loose.fis.sre.services.userDB.encodePassword;
 import static org.testfx.assertions.api.Assertions.assertThat;
 
 @ExtendWith(ApplicationExtension.class)
@@ -43,7 +44,7 @@ public class userDBTest {
         User user = userDB.getUsers("users_test").get(0);
         assertThat(user).isNotNull();
         assertThat(user.getUsername()).isEqualTo(USERNAME);
-        assertThat(user.getPassword()).isEqualTo(PASSWORD);
+        assertThat(user.getPassword()).isEqualTo(encodePassword(USERNAME, PASSWORD));
         assertThat(user.getRole()).isEqualTo(ROLE);
         assertThat(user.getEmail()).isEqualTo(EMAIL);
         assertThat(user.getName()).isEqualTo(NAME);
